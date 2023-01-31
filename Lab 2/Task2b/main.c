@@ -50,6 +50,13 @@ void switches() {
   GPIOPUR_J = 0x3;
   EN1 = 1 << 19u;
   GPIOIM_J |= 0x7F;
+  
+  GPIOIS_J &= ~0x3;  /* make bit 1, 0 edge sensitive */
+  GPIOIBE_J &= ~0x3; /* trigger is controlled by IEV */
+  GPIOIEV_J = ~0x3;   /* falling edge trigger */
+  GPIOICR_J |= 0x3;  /* clear any prior interrupt */
+  GPIOIM_J |= 0x3;   /* unmask interrupt */
+  
   // ENSURE THESE ARE ONLY NECESSARY REGISTER CONFIGURATION FOR SWITCHES
 }
 
@@ -64,9 +71,9 @@ void Timer0A_Handler() {
   }
 }
 
-void System_Interrupt_Handler() {
-  // NEED LINE OF CODE TO DISABLE HANDLER FOR SWITCH AFTER IT IS ACTIVATED
-  if (GPIODATA_J & 0x1) {
+void Switch_Interrupt_Handler() { // changed this to switch
+  GPIOICR_J |= 0x3;  /* clear any prior interrupt */
+  if (GPIODATA_J & 0x2) {
     GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
     GPIODATA_N |= 0x1;
   } else {

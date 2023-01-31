@@ -34,7 +34,12 @@
 #define GPIODEN_J    (*((volatile uint32_t *)0x4006051C))
 #define GPIOPUR_J    (*((volatile uint32_t *)0x40060510))
 #define GPIODATA_J   (*((volatile uint32_t *)0x400603FC))
-#define GPIOIM_J       (*((volatile uint32_t *)0x40060410))
+
+#define GPIOIM_J     (*((volatile uint32_t *)0x40060410))
+#define GPIOIS_J     (*((volatile uint32_t *)0x40060404))
+#define GPIOIBE_J    (*((volatile uint32_t *)0x40060408))
+#define GPIOICR_J    (*((volatile uint32_t *)0x4006041C))
+#define GPIOIEV_J    (*((volatile uint32_t *)0x4006040C))
 
 void timer_initc();
 void lights();
