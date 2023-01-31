@@ -50,6 +50,7 @@ void switches() {
   GPIOPUR_J = 0x3;
   EN1 = 1 << 19u;
   GPIOIM_J |= 0x7F;
+  // ENSURE THESE ARE ONLY NECESSARY REGISTER CONFIGURATION FOR SWITCHES
 }
 
 void Timer0A_Handler() {
@@ -64,6 +65,7 @@ void Timer0A_Handler() {
 }
 
 void System_Interrupt_Handler() {
+  // NEED LINE OF CODE TO DISABLE HANDLER FOR SWITCH AFTER IT IS ACTIVATED
   if (GPIODATA_J & 0x1) {
     GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
     GPIODATA_N |= 0x1;
