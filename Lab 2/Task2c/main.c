@@ -4,6 +4,8 @@
 // initializing states for traffic light 
 enum TL_States { TL_init, TL_stop, TL_warn, TL_go } TL_State;
 int counter;
+
+
 // main function of the program 
 int main(void)
 {
@@ -13,7 +15,7 @@ int main(void)
   TL_State = TL_init;
   counter = 0;
   while (1) {
-// Traffic_Light_System();
+    // Traffic_Light_System();
   }
   return 0;
 }
@@ -22,18 +24,19 @@ int main(void)
 
 void timer_initc() {
   volatile unsigned short delay = 0;
+  RCGCTIMER |= 0x1; // Enable the appropriate TIMERn bit in the RCGCTIMER register
   delay++; // Delay 2 more cycles before access Timer registers
   delay++; // Refer to Page. 756 of Datasheet for info
-  RCGCTIMER |= 0x1; // Enable the appropriate TIMERn bit in the RCGCTIMER register
   GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
-  GPTMCFG_0 = 0x00; // Write 0x0000.0000 to the GPTMCFG register, 
-  GPTMCFG_0 &= 0x00; //select 32-bit mode using the GPTMCFG register
+  GPTMCFG_0 = 0x0; // Write 0x0000.0000 to the GPTMCFG register, 
+  GPTMCFG_0 &= 0x0; //select 32-bit mode using the GPTMCFG register
   
-  GPTMTAMR_0 &= ~0x10; // Configure the TACDIR bit of the GPTMTAMR register to count down
+  //GPTMTAMR_0 &= ~0x02; // Configure the TACDIR bit of the GPTMTAMR register to count down
   GPTMTAMR_0 |= 0x2; // Puts in periodic timer mode
-  GPTMTAILR_0 = 16000000;// Load the value 16,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
+  GPTMTAILR_0 = 0xF42400;// Load the value 16,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
+  
+  EN0 = (1<<19u);
   GPTMIMR_0 = 0x1; // Configure GPTMIMR register for interrupts
-  EN0 |= (1 << 19u);
   GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
 }
 
@@ -46,7 +49,7 @@ void buttons() {
   
   GPIOIS_E &= ~0x3;  /* make bit 1, 0 edge sensitive */
   GPIOIBE_E &= ~0x3; /* trigger is controlled by IEV */
-  GPIOIEV_E = ~0x3;   /* falling edge trigger */
+  //GPIOIEV_E = ~0x3;   /* falling edge trigger */
   GPIOICR_E |= 0x3;  /* clear any prior interrupt */
   GPIOIM_E |= 0x3;   /* unmask interrupt */
   // ENSURE THESE ARE ONLY NECESSARY REGISTER CONFIGURATION FOR SWITCHES
@@ -54,7 +57,10 @@ void buttons() {
 
 // initializing leds
 void led_init() {
+  volatile unsigned short delay = 0;
   RCGCGPIO  |= 0xFFFF;
+  delay++;
+  delay++;
   GPIOAMSEL_E &= ~0x1F;          // disable analog function of PE0/1/2/3/4
   GPIOAFSEL_E &= ~0x1F;          // set PE/1/2/3/4 regular port function 
   GPIODIR_E |= 0x1C;             // set PE2/3/4 to output 

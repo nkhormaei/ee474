@@ -20,9 +20,7 @@
 #define GPTMIMR_0      (*((volatile uint32_t *)0x40030018))
 #define GPTMRIS_0      (*((volatile uint32_t *)0x4003001C))
 #define GPTMICR_0      (*((volatile uint32_t *)0x40030024))
-
-
-#define EN0            (*((volatile uint32_t *) 0xE000E100))
+#define EN0            (*((volatile uint32_t *)0xE000E100))
 
 // To set up and change the data for GPIO Port E: LEDS and breadboard buttons
 #define GPIOAMSEL_E   (*((volatile uint32_t *)0x4005C528))
