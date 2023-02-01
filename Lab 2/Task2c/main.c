@@ -1,9 +1,14 @@
 #include <stdint.h> 
+#include <stdbool.h> 
 #include "header.h" 
 
 // initializing states for traffic light 
 enum TL_States { TL_init, TL_stop, TL_warn, TL_go } TL_State;
-int counter;
+int sysCounter;
+int pedCounter;
+int fiveCounter;
+bool sysOrPed;
+bool active;
 
 
 // main function of the program 
@@ -13,14 +18,14 @@ int main(void)
   buttons();
   led_init();
   TL_State = TL_init;
-  counter = 0;
+  sysCounter = 0;
+  pedCounter = 0;
+  fiveCounter = 0;
   while (1) {
-    // Traffic_Light_System();
+    Traffic_Light_System();
   }
   return 0;
 }
-
-
 
 void timer_initc() {
   volatile unsigned short delay = 0;
@@ -68,31 +73,6 @@ void led_init() {
   GPIODEN_E |= 0x1F;             // enable digital output on PE0/1/2/3/4
 }
 
-void Timer0A_Handler() {
-  GPTMICR_0 |= 0x1; // clearing flag
-  if (counter == 0) {
-      Red_on();
-      Yellow_on();
-      Green_on();
-      counter +=1;
-  } else {
-    Red_off();
-    Yellow_off();
-    Green_off();
-    counter = 0; 
-  }
-}
-
-void Button_Interrupt_Handler() { // changed this to switch
-  GPIOICR_E |= 0x3;  /* clear any prior interrupt */
-  if (GPIODATA_E & 0x1) {
-    GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
-  } else {
-    GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
-  }
-}
-
-
 // initializing red led on
 void Red_on(void) 
 { 
@@ -128,54 +108,35 @@ void Green_on(void)
 void Green_off(void) 
 { 
     GPIODATA_E &= ~0x10; 
-} 
+}
 
-// function is checking if button is pressed and setting count
-//bool system_button_pressed() {
-//  int count = 0;
-//  while (GPIODATA_E & 0x1) {
-//    if (GPTMRIS_0 & 0x1) {
-//        GPTMICR_0 |= 0x1;
-//        count +=1;
-//    }
-//    if (count == 2) {
-//        return true;
-//    }
-//  }
-//  return false;
-//}
 
-int five_seconds() {
-  int count = 0;
-  int sys = 0;
-  int ped = 0;
-  while (count < 5) {
-    while (GPIODATA_E & 0x1) {
-      if (GPTMRIS_0 & 0x1) {
-        GPTMICR_0 |= 0x1;
-        count +=1;
-        sys +=1;
-      }
-      if (sys == 2) {
-        return 1;
-      }
-    }
-    while (GPIODATA_E & 0x2) {
-      if (GPTMRIS_0 & 0x1) {
-        GPTMICR_0 |= 0x1;
-        count +=1;
-        ped +=1;
-      }
-      if (ped == 2) {
-        return 2;
-      }
-    }
-    if (GPTMRIS_0 & 0x1) {
-        GPTMICR_0 |= 0x1;
-        count +=1;
+void Timer0A_Handler() {
+  GPTMICR_0 |= 0x1; // clearing flag
+  fiveCounter += 1;
+  if (active) {
+    if (sysOrPed) {
+      sysCounter += 1;
+    } else {
+      pedCounter +=1;
     }
   }
-  return 0; 
+}
+
+void Button_Interrupt_Handler() { // changed this to switch
+  GPIOICR_E |= 0x3;  // clear any prior interrupt
+  if (active) {
+    active = false;
+    sysCounter = 0;
+    pedCounter = 0;
+  } else {
+    active = true;
+    if (GPIODATA_E & 0x1) {
+      sysOrPed = true;
+    } else {
+      sysOrPed = false;
+    }
+  }
 }
 
 // function for traffic light system state machine
@@ -183,37 +144,43 @@ void Traffic_Light_System()
 {
   switch(TL_State) {   // State Transitions
      case TL_init: 
-      //  bool flag = system_button_pressed();
-     //   if (flag) {
+        if (sysCounter == 2) {
+          sysCounter == 0;
           TL_State = TL_stop;
-       // }
+        }
+        fiveCounter = 0;
        break;
      case TL_go:
-        int result_go = five_seconds();
-        if (result_go == 1) {
+        if (sysCounter == 2) {
+           sysCounter = 0;
            TL_State = TL_init;
         }
-        else if (result_go == 2) {
+        else if (pedCounter == 2) {
+           pedCounter = 0;
+           fiveCounter = 0;
            TL_State = TL_warn;
-        } else {
+        } else if (fiveCounter == 5) {
+          fiveCounter = 0;
           TL_State = TL_stop;
         }
         break;
      case TL_warn:
-        int result_warn = five_seconds();
-        if (result_warn == 1) {
+        if (sysCounter == 2) {
+          sysCounter = 0;
           TL_State = TL_init;
         }
-        else {
+        else if (fiveCounter == 5) {
+          fiveCounter = 0;
           TL_State = TL_stop;
         }
         break;
      case TL_stop:
-       int result_stop = five_seconds();
-        if (result_stop == 1) {
+        if (sysCounter == 2) {
+           sysCounter = 0;
            TL_State = TL_init;
         }
-        else {
+        else if (fiveCounter == 5) {
+          fiveCounter = 0;
           TL_State = TL_go;
         }
         break;
