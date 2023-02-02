@@ -1,12 +1,18 @@
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 1/24/23
+ * This file provides the implementation for using timers to blink LED1 at a rate of 1 Hz.
+ * and have SW1 and SW2 buttons interrupt the program. When SW1 is pressed, the timer stops
+ * counting down; instead, LED2 is turned on. When SW2 is pressed, the timer starts counting
+ * down again, returning LED1 back to its blinking behavior. This step consequently turns off LED2 
+ */ 
 #include <stdint.h> 
 #include "header.h" 
 
-/*
-This part of the lab (task 1) had 2 main goals- 1) turn on the lights in a specific pattern
-depending on the timers instead of delays
-*/
+// used to control LED1's state
 int counter;
-// main function of the program 
+
 int main(void)
 {
   lights();
@@ -16,7 +22,6 @@ int main(void)
   return 0;
 }
 
-// function used to intialize timer registers and cast certain bits
 void timer_initc() {
   RCGCTIMER |= 0xFFFF; // Enable the appropriate TIMERn bit in the RCGCTIMER register
   GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
@@ -31,7 +36,6 @@ void timer_initc() {
   GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
 }
 
-// function used to initialize lights on the board
 void lights() {
     volatile unsigned short delay = 0; 
     RCGCGPIO |= 0xFFFF;  // Enable Ports
@@ -56,28 +60,28 @@ void switches() {
   GPIOIEV_J = ~0x3;   /* falling edge trigger */
   GPIOICR_J |= 0x3;  /* clear any prior interrupt */
   GPIOIM_J |= 0x3;   /* unmask interrupt */
-  
-  // ENSURE THESE ARE ONLY NECESSARY REGISTER CONFIGURATION FOR SWITCHES
 }
 
+// timer interrupt handler, turns on and off LED1 periodically
 void Timer0A_Handler() {
   GPTMICR_0 |= 0x1; // clearing flag
   if (counter == 0) {
-      GPIODATA_N |= 0x2;
+      GPIODATA_N |= 0x2; // turn on LED 1
       counter +=1;
   } else {
-    GPIODATA_N &= ~0x2;
+    GPIODATA_N &= ~0x2; // turn off LED1
     counter = 0; 
   }
 }
 
-void Switch_Interrupt_Handler() { // changed this to switch
+// switch interrupt handler, implements stalling LED1 and turning on LED2 as appropriate
+void Switch_Interrupt_Handler() {
   GPIOICR_J |= 0x3;  /* clear any prior interrupt */
   if (GPIODATA_J & 0x2) {
     GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
-    GPIODATA_N |= 0x1;
+    GPIODATA_N |= 0x1; // turn on LED2
   } else {
     GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
-    GPIODATA_N &= ~0x1;
+    GPIODATA_N &= ~0x1; // turn off LED2
   }
 }

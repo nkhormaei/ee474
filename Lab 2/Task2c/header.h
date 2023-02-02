@@ -3,16 +3,18 @@
  * 1964629, 2033863
  * 1/24/23
  * This header file provides method declarations for necessary functionality in
- * implementing the GPIO addresses for using Port F, N and J 
+ * implementing the traffic light system as well as GPIO addresses for using Port E
+ * to access the breadboard lights and buttons. 
  */ 
 
 #ifndef __HEADER1_H__ 
 #define __HEADER1_H__ 
-   
-#define RCGCGPIO     (*((volatile uint32_t *)0x400FE608)) 
- 
-#define RCGCTIMER    (*((volatile uint32_t *)0x400FE604))
 
+// to turn on necessary ports
+#define RCGCGPIO     (*((volatile uint32_t *)0x400FE608)) 
+
+// to set up timer 0A for interrupts
+#define RCGCTIMER    (*((volatile uint32_t *)0x400FE604))
 #define GPTMCTL_0      (*((volatile uint32_t *)0x4003000C))
 #define GPTMCFG_0      (*((volatile uint32_t *)0x40030000))
 #define GPTMTAMR_0     (*((volatile uint32_t *)0x40030004))
@@ -28,23 +30,21 @@
 #define GPIODIR_E  (*((volatile uint32_t *)0x4005C400))
 #define GPIODEN_E  (*((volatile uint32_t *)0x4005C51C))
 #define GPIOPUR_E  (*((volatile uint32_t *)0x4005C510))
-#define GPIODATA_E (*((volatile uint32_t *)0x4005C3FC))
-                
+#define GPIODATA_E (*((volatile uint32_t *)0x4005C3FC))               
 #define GPIOIM_E  (*((volatile uint32_t *)0x4005C410))
 #define GPIOIS_E  (*((volatile uint32_t *)0x4005C404))
 #define GPIOIBE_E (*((volatile uint32_t *)0x4005C408))
 #define GPIOICR_E (*((volatile uint32_t *)0x4005C41C))
 #define GPIOIEV_E (*((volatile uint32_t *)0x4005C40C))
 
+// initializes timer and interrupt registers
 void timer_initc();
-void lights();
+
+// initializes breadbord buttons for interrupts
 void buttons();
 
 // Sets up the LEDs and buttons
-void led_init(); 
-
-// Sets up timer configuration
-void timer_initc();
+void led_init();
 
 // turn on LED connected to PE2 
 void Red_on(void);

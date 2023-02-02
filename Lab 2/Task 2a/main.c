@@ -1,22 +1,29 @@
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 1/24/23
+ * This file provides the implementation for turning on/of the LEDs
+ * sequentially with the 1Hz timer as an interrupt
+ */ 
 #include <stdint.h> 
 #include "header.h" 
 
-/*
-This part of the lab (task 1) had 2 main goals- 1) turn on the lights in a specific pattern
-depending on the timers instead of delays
-*/
+// to order to the LEDs
 int counter;
-// main function of the program 
+
 int main(void)
 {
+  counter = 0;
   lights();
   timer_initc();
   while (1) {};
   return 0;
 }
 
-// function used to intialize timer registers and cast certain bits
 void timer_initc() {
+  volatile unsigned short delay = 0; 
+  delay++;           // Delay 2 more cycles before access Timer registers 
+  delay++;           // Refer to Page. 756 of Datasheet for info 
   RCGCTIMER |= 0x1; // Enable the appropriate TIMERn bit in the RCGCTIMER register
   GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
   GPTMCFG_0 = 0x00; // Write 0x0000.0000 to the GPTMCFG register, 
@@ -30,24 +37,18 @@ void timer_initc() {
   GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
 }
 
-// function used to initialize lights on the board
 void lights() {
-    volatile unsigned short delay = 0; 
     RCGCGPIO |= 0xFFFF;  // Enable Ports
-    delay++;           // Delay 2 more cycles before access Timer registers 
-    delay++;           // Refer to Page. 756 of Datasheet for info 
-    
     GPIODIR_F = 0x11;   // Set PF0 to output 
     GPIODEN_F = 0x11;   // Set PF0 to digital port 
-    
     GPIODIR_N = 0x3; // setting bits for the N ports
     GPIODEN_N = 0x3; 
-
 }
 
+// interrupt method instigated by timer flag
 void Timer0A_Handler() {
   GPTMICR_0 |= 0x1; // clearing flag
-  if (counter == 0) {
+  if (counter == 0) { // using counter to determine which LED to turn on/off
       GPIODATA_N |= 0x1;
   } else if (counter == 1) {
       GPIODATA_N |= 0x2;
@@ -64,8 +65,8 @@ void Timer0A_Handler() {
   } else if (counter == 7) {
       GPIODATA_F &= ~0x2;
   }
-  if (counter == 7) { // checking counter value
-    counter = 0; 
+  if (counter == 7) {
+    counter = 0; // resetting counter
   } else {
     counter += 1; // incrementing value
   }
