@@ -1,0 +1,175 @@
+###############################################################################
+#
+# IAR ELF Linker V8.11.3.13950/W32 for ARM                06/Feb/2023  20:32:12
+# Copyright 2007-2017 IAR Systems AB.
+#
+#    Output file  =  
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Exe\task1a.out
+#    Map file     =  
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\List\task1a.map
+#    Command line =  
+#        -f C:\Users\fishtail\AppData\Local\Temp\EWF49.tmp
+#        (C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj\cstartup_M.o
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj\Lab3_Inits.o
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj\Lab3_Task1a.o -o
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Exe\task1a.out --map
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\List\task1a.map
+#        --config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.0\arm\CONFIG\generic_cortex.icf" --semihosting --entry
+#        __iar_program_start --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because some modules are built with
+size limitations (and not runtime checking), and --advanced_heap
+was not specified.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at 0x00000000 { ro section .intvec };
+"P1":  place in [from 0x00000000 to 0x0007ffff] { ro };
+define block CSTACK with size = 1K, alignment = 8 { };
+define block PROC_STACK with size = 0M, alignment = 8 { };
+define block HEAP with size = 2K, alignment = 8 { };
+"P3":  place in [from 0x00000000 to 0x00000000] |
+                [from 0x20000000 to 0x2000ffff] {
+          rw, block CSTACK, block PROC_STACK, block HEAP };
+
+  Section   Kind        Address   Size  Object
+  -------   ----        -------   ----  ------
+"A0":                            0x208
+  .intvec   const    0x00000000  0x208  cstartup_M.o [1]
+                   - 0x00000208  0x208
+
+"P1":                            0x242
+  .text     ro code  0x00000208  0x18a  Lab3_Inits.o [1]
+  .text     ro code  0x00000392    0x2  cstartup_M.o [1]
+  .text     ro code  0x00000394   0x32  Lab3_Task1a.o [1]
+  .text     ro code  0x000003c6    0x2  cstartup_M.o [1]
+  .text     ro code  0x000003c8   0x24  FltCmpLe.o [4]
+  .text     ro code  0x000003ec   0x1a  cmain.o [5]
+  .text     ro code  0x00000406    0x4  low_level_init.o [3]
+  .text     ro code  0x0000040a    0x4  exit.o [3]
+  .text     ro code  0x0000040e    0x2  cstartup_M.o [1]
+  .text     ro code  0x00000410    0xa  cexit.o [5]
+  .text     ro code  0x0000041a    0x2  cstartup_M.o [1]
+  .text     ro code  0x0000041c   0x14  exit.o [6]
+  .text     ro code  0x00000430   0x10  cstartup_M.o [1]
+  .text     ro code  0x00000440    0x2  cstartup_M.o [1]
+  .text     ro code  0x00000442    0x2  cstartup_M.o [1]
+  .text     ro code  0x00000444    0x2  cstartup_M.o [1]
+  .text     ro code  0x00000446    0x2  cstartup_M.o [1]
+  .text     ro code  0x00000448    0x2  cstartup_M.o [1]
+                   - 0x0000044a  0x242
+
+"P3":                            0x400
+  CSTACK             0x20000000  0x400  <Block>
+    CSTACK  uninit   0x20000000  0x400  <Block tail>
+                   - 0x20000400  0x400
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module            ro code  ro data  rw data
+    ------            -------  -------  -------
+C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj: [1]
+    Lab3_Inits.o          394
+    Lab3_Task1a.o          50
+    cstartup_M.o           34      520
+    -------------------------------------------
+    Total:                478      520
+
+command line: [2]
+    -------------------------------------------
+    Total:
+
+dl7M_tln.a: [3]
+    exit.o                  4
+    low_level_init.o        4
+    -------------------------------------------
+    Total:                  8
+
+m7M_tl.a: [4]
+    FltCmpLe.o             36
+    -------------------------------------------
+    Total:                 36
+
+rt7M_tl.a: [5]
+    cexit.o                10
+    cmain.o                26
+    -------------------------------------------
+    Total:                 36
+
+shb_l.a: [6]
+    exit.o                 20
+    -------------------------------------------
+    Total:                 20
+
+    Linker created                        1 024
+-----------------------------------------------
+    Grand Total:          578      520    1 024
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                      Address   Size  Type      Object
+-----                      -------   ----  ----      ------
+?main                   0x000003ed         Code  Gb  cmain.o [5]
+ADC0SS3_Handler         0x000003c5    0x2  Code  Gb  Lab3_Task1a.o [1]
+ADCReadPot_Init         0x0000035b   0x16  Code  Gb  Lab3_Inits.o [1]
+CSTACK$$Base            0x20000000          --   Gb  - Linker created -
+CSTACK$$Limit           0x20000400          --   Gb  - Linker created -
+LED_Init                0x00000359    0x2  Code  Gb  Lab3_Inits.o [1]
+PLL_Init                0x00000209  0x150  Code  Gb  Lab3_Inits.o [1]
+Region$$Table$$Base     0x00000000          --   Gb  - Linker created -
+Region$$Table$$Limit    0x00000000          --   Gb  - Linker created -
+TimerADCTriger_Init     0x00000391    0x2  Code  Gb  Lab3_Inits.o [1]
+__aeabi_cfcmple         0x000003c9         Code  Gb  FltCmpLe.o [4]
+__cmain                 0x000003ed         Code  Gb  cmain.o [5]
+__exit                  0x0000041d   0x14  Code  Gb  exit.o [6]
+__iar_program_start     0x00000431   0x10  Code  Gb  cstartup_M.o [1]
+__iar_systems$$module {Abs}
+                        0x00000001         Data  Gb  command line/config [2]
+__low_level_init        0x00000407    0x4  Code  Gb  low_level_init.o [3]
+__vector_table          0x00000000  0x208  Data  Gb  cstartup_M.o [1]
+_call_main              0x000003f9         Code  Gb  cmain.o [5]
+_exit                   0x00000411         Code  Gb  cexit.o [5]
+_main                   0x00000403         Code  Gb  cmain.o [5]
+exit                    0x0000040b    0x4  Code  Gb  exit.o [3]
+main                    0x00000395   0x28  Code  Gb  Lab3_Task1a.o [1]
+
+
+[1] = C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj
+[2] = command line
+[3] = dl7M_tln.a
+[4] = m7M_tl.a
+[5] = rt7M_tl.a
+[6] = shb_l.a
+
+    578 bytes of readonly  code memory
+    520 bytes of readonly  data memory
+  1 024 bytes of readwrite data memory
+
+Errors: none
+Warnings: none
