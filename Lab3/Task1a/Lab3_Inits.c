@@ -7,6 +7,7 @@
 
 // STEP 0a: Include your header file here
 // YOUR CUSTOM HEADER FILE HERE
+#include "ADC_Header.h"
 
 int PLL_Init(enum frequency freq) {
     // Do NOT modify this function.
@@ -58,45 +59,57 @@ int PLL_Init(enum frequency freq) {
 void LED_Init(void) {
   // STEP 1: Initialize the 4 on board LEDs by initializing the corresponding
   // GPIO pins.
-
-  // YOUR CODE HERE
+  
+  RCGCGPIO |= 0xFFFF;
+  GPIODIR_F = 0x11;
+  GPIODEN_F = 0x11; 
+  GPIODIR_N = 0x3;
+  GPIODEN_N = 0x3; 
 }
 
 void ADCReadPot_Init(void) {
   // STEP 2: Initialize ADC0 SS3.
   // 2.1: Enable the ADC0 clock
+  RCGCADC |= 0x1;
 
   // 2.2: Delay for RCGCADC (Refer to page 1073)
-
+  volatile unsigned short delay = 0; 
+  delay++;
+  delay++;
+  delay++;
   // 2.3: Power up the PLL (if not already)
   PLLFREQ0 |= 0x00800000; // we did this for you
   // 2.4: Wait for the PLL to lock
   while (PLLSTAT != 0x1); // we did this for you
   // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
-
+  ALTCLKCFG = 0x0;
+  ADCCC = 0x1;
   // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
-
+  GPIODEN_E = 0x0;
+  GPIOAMSEL_E = 0x8;
   // 2.7: Delay for RCGCGPIO
-
+  delay++;
+  delay++;
   // 2.8: Set the GPIOAFSEL bits for the ADC input pins
-
+  GPIOAFSEL_E = 0x8;
   // 2.9: Clear the GPIODEN bits for the ADC input pins
-
+  GPIODEN_E = 0x0;
   // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
-
+  GPIOAMSEL_E = 0x0;
   // 2.11: Disable sample sequencer 3 (SS3)
-
+  ADCACTSS = 0x0;
   // 2.12: Select timer as the trigger for SS3
-
+  ADCEMUX = 0x1000;
   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-
+  ADCSSMUX = 0x1000;
   // 2.14: Configure ADCSSCTL3 register
-
+  ADCSSCTL3 = 0xC;
   // 2.15: Set the SS3 interrupt mask
-
+  ADCRIS =
   // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
 
   // 2.17: Enable ADC0 SS3
+  ADCACTSS = 0x8;
 
 }
 

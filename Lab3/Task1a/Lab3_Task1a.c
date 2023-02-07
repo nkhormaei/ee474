@@ -11,6 +11,7 @@
 
 // STEP 0b: Include your header file here
 // YOUR CUSTOM HEADER FILE HERE
+#include "ADC_Header.h"
 
 uint32_t ADC_value;
 
@@ -25,16 +26,18 @@ int main(void) {
   while(1) {
     // STEP 5: Change the pattern of LEDs based on the resistance.
     // 5.1: Convert ADC_value to resistance in kilo-ohm
-
+    resistance = ADC_value / 4095.0 * 10.0;
     // 5.2: Change the pattern of LEDs based on the resistance
     if (resistance < 2.5) {
-
+        GPIODATA_N = 0x2;
     } else if (resistance < 5.0) {
-
+        GPIODATA_N = 0x3;
     } else if (resistance < 7.5) {
-
+        GPIODATA_N = 0x3;
+        GPIODATA_F = 0x10;
     } else {
-
+        GPIODATA_N = 0x3;
+        GPIODATA_F = 0x11;
     }
   }
   return 0;
