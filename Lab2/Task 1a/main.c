@@ -1,12 +1,13 @@
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 1/24/23
+ * This file provides the implementation for turning on and off
+ * LEDs 1, 2, 3, and 4 sequentially at the rate of 1Hz
+ */ 
 #include <stdint.h> 
 #include "lab2_task1.h" 
 
-/*
-This part of the lab (task 1) had 2 main goals- 1) turn on the lights in a specific pattern
-depending on the timers instead of delays
-*/
-
-// main function of the program 
 int main(void)
 {
   lights();
@@ -15,7 +16,6 @@ int main(void)
   return 0;
 }
 
-// function used to intialize timer registers and cast certain bits
 void timer_initc() {
   RCGCTIMER |= 0x1; // Enable the appropriate TIMERn bit in the RCGCTIMER register
   GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
@@ -28,7 +28,6 @@ void timer_initc() {
   GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
 }
 
-// function used to initialize lights on the board
 void lights() {
     volatile unsigned short delay = 0; 
     RCGCGPIO |= 0xFFFF;  // Enable Ports
@@ -38,19 +37,18 @@ void lights() {
     GPIODIR_F = 0x11;   // Set PF0 to output 
     GPIODEN_F = 0x11;   // Set PF0 to digital port 
     
-    GPIODIR_N = 0x3; // setting bits for the N ports
+    GPIODIR_N = 0x3;  // setting bits for the N ports
     GPIODEN_N = 0x3; 
 
 }
 
-// function to go through different lights turning on and off depending on the count 
 void polling_GPIO() {
   int counter = 0;
   while (1) {
-    if (GPTMRIS_0 & 0x1) { // checking if flag is true
+    if (GPTMRIS_0 & 0x1) { // checking if timer flag is on
       GPTMICR_0 |= 0x1; // clearing flag
-      if (counter == 0) {
-          GPIODATA_N |= 0x1;
+      if (counter == 0) { //checking counter variable to determine
+          GPIODATA_N |= 0x1; // which led to turn on/off
       } else if (counter == 1) {
           GPIODATA_N |= 0x2;
       } else if (counter == 2) {
@@ -66,8 +64,8 @@ void polling_GPIO() {
       } else if (counter == 7) {
           GPIODATA_F &= ~0x2;
       }
-      if (counter == 7) { // checking counter value
-        counter = 0; 
+      if (counter == 7) { 
+        counter = 0; // resetting counter
       } else {
         counter += 1; // incrementing value
       }

@@ -1,17 +1,32 @@
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 1/24/23
+ * This file implements the traffic light system using interrupts on the buttons
+ * and 1Hz timer. 
+ */ 
 #include <stdint.h> 
 #include <stdbool.h> 
 #include "header.h" 
 
 // initializing states for traffic light 
 enum TL_States { TL_init, TL_stop, TL_warn, TL_go } TL_State;
+
+// keeps track of how long system button is held
 int sysCounter;
+
+// keeps track of how long pedestrian button is held
 int pedCounter;
+
+// keeps track of 5 second timer
 int fiveCounter;
+
+// indicates whether button pressed corresponds to system or pedestrian
 bool sysOrPed;
+
+// indicates whether button is being pressed or released
 bool active;
 
-
-// main function of the program 
 int main(void)
 {
   timer_initc();
@@ -60,7 +75,6 @@ void buttons() {
   // ENSURE THESE ARE ONLY NECESSARY REGISTER CONFIGURATION FOR SWITCHES
 }
 
-// initializing leds
 void led_init() {
   volatile unsigned short delay = 0;
   RCGCGPIO  |= 0xFFFF;
@@ -73,44 +87,38 @@ void led_init() {
   GPIODEN_E |= 0x1F;             // enable digital output on PE0/1/2/3/4
 }
 
-// initializing red led on
 void Red_on(void) 
 { 
     GPIODATA_E |= 0x4; 
 } 
 
-// initializing red led off
 void Red_off(void) 
 { 
     GPIODATA_E &= ~0x4; 
 } 
 
-// initializing yellow led on
 void Yellow_on(void) 
 { 
     GPIODATA_E |= 0x8; 
     
 } 
 
-// initializing yellow led off
 void Yellow_off(void) 
 { 
     GPIODATA_E &= ~0x8; 
 } 
 
-// initializing green led on
 void Green_on(void) 
 { 
     GPIODATA_E |= 0x10; 
 } 
 
-// initializing green led off
 void Green_off(void) 
 { 
     GPIODATA_E &= ~0x10; 
 }
 
-
+// timer interrupt method used to control counters for FSM
 void Timer0A_Handler() {
   GPTMICR_0 |= 0x1; // clearing flag
   fiveCounter += 1;
@@ -123,7 +131,8 @@ void Timer0A_Handler() {
   }
 }
 
-void Button_Interrupt_Handler() { // changed this to switch
+// button interrupt method used to set flags for timer interrupt
+void Button_Interrupt_Handler() {
   GPIOICR_E |= 0x3;  // clear any prior interrupt
   if (active) {
     active = false;
@@ -131,7 +140,7 @@ void Button_Interrupt_Handler() { // changed this to switch
     pedCounter = 0;
   } else {
     active = true;
-    if (GPIODATA_E & 0x1) {
+    if (GPIODATA_E & 0x1) { // checking if system button pressed
       sysOrPed = true;
     } else {
       sysOrPed = false;
@@ -139,47 +148,46 @@ void Button_Interrupt_Handler() { // changed this to switch
   }
 }
 
-// function for traffic light system state machine
 void Traffic_Light_System()
 {
   switch(TL_State) {   // State Transitions
      case TL_init: 
-        if (sysCounter == 2) {
+        if (sysCounter == 2) { // system button pressed
           sysCounter == 0;
           TL_State = TL_stop;
         }
         fiveCounter = 0;
        break;
      case TL_go:
-        if (sysCounter == 2) {
+        if (sysCounter == 2) { // system button pressed
            sysCounter = 0;
            TL_State = TL_init;
         }
-        else if (pedCounter == 2) {
+        else if (pedCounter == 2) { // pedestrian button pressed
            pedCounter = 0;
            fiveCounter = 0;
            TL_State = TL_warn;
-        } else if (fiveCounter == 5) {
+        } else if (fiveCounter == 5) { // five seconds passed
           fiveCounter = 0;
           TL_State = TL_stop;
         }
         break;
      case TL_warn:
-        if (sysCounter == 2) {
+        if (sysCounter == 2) { // system button pressed
           sysCounter = 0;
           TL_State = TL_init;
         }
-        else if (fiveCounter == 5) {
+        else if (fiveCounter == 5) { // five seconds passed
           fiveCounter = 0;
           TL_State = TL_stop;
         }
         break;
      case TL_stop:
-        if (sysCounter == 2) {
+        if (sysCounter == 2) { // system button pressed
            sysCounter = 0;
            TL_State = TL_init;
         }
-        else if (fiveCounter == 5) {
+        else if (fiveCounter == 5) { // five seconds passed
           fiveCounter = 0;
           TL_State = TL_go;
         }
