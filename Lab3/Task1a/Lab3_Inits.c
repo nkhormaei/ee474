@@ -71,7 +71,6 @@ void ADCReadPot_Init(void) {
   // STEP 2: Initialize ADC0 SS3.
   // 2.1: Enable the ADC0 clock
   RCGCADC |= 0x1;
-
   // 2.2: Delay for RCGCADC (Refer to page 1073)
   volatile unsigned short delay = 0; 
   delay++;
@@ -81,33 +80,48 @@ void ADCReadPot_Init(void) {
   PLLFREQ0 |= 0x00800000; // we did this for you
   // 2.4: Wait for the PLL to lock
   while (PLLSTAT != 0x1); // we did this for you
-  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
+  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG ????
   ALTCLKCFG = 0x0;
   ADCCC = 0x1;
-  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
+  
+  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1) ????
   GPIODEN_E = 0x0;
-  GPIOAMSEL_E = 0x8;
+  GPIOAMSEL_E |= 0x8;
+  
   // 2.7: Delay for RCGCGPIO
   delay++;
   delay++;
+  
   // 2.8: Set the GPIOAFSEL bits for the ADC input pins
-  GPIOAFSEL_E = 0x8;
+  GPIOAFSEL_E |= 0x8;
+  
   // 2.9: Clear the GPIODEN bits for the ADC input pins
   GPIODEN_E = 0x0;
+  
   // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
-  GPIOAMSEL_E = 0x0;
+  GPIOAMSEL_E |= 0x8; // want analog isolation to be disabled
+  
   // 2.11: Disable sample sequencer 3 (SS3)
   ADCACTSS = 0x0;
-  // 2.12: Select timer as the trigger for SS3
-  ADCEMUX = 0x1000;
+  
+  // 2.12: Select timer as the trigger for SS3 ????
+  ADCEMUX = 0x5000; // changed this
+  
   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-  ADCSSMUX = 0x1000;
+  // ADCSSMUX = 0x1;
+  ADCSSEMUX3 &= ~0x1; // uses pins 0-15
+  ADCSSMUX3 = (ADCSSMUX3 & ~0xF);
+  
   // 2.14: Configure ADCSSCTL3 register
-  ADCSSCTL3 = 0xC;
-  // 2.15: Set the SS3 interrupt mask
-  ADCRIS =
-  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
-
+  ADCSSCTL3 = 0x6; //0110
+  
+  // 2.15: Set the SS3 interrupt mask ??????
+  ADCIM |= 0x8; // added this
+  //ADCRIS |= 0x8; 
+  
+  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC ??????
+  NVIC_EN0 |= 0x8; // added this
+  
   // 2.17: Enable ADC0 SS3
   ADCACTSS = 0x8;
 
@@ -116,8 +130,8 @@ void ADCReadPot_Init(void) {
 void TimerADCTriger_Init(void) {
   // STEP 3: Initialize Timer0A to trigger ADC0 at 1 HZ.
   // Hint: Refer to section 13.3.7 of the datasheet
-
-  // YOUR CODE HERE
+  GPTMCTL_0 = 0x20;
+  GPTMADCEV = 0x2;
 }
 
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler

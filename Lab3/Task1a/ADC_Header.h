@@ -21,8 +21,21 @@
 #define GPIOAFSEL_E  (*((volatile uint32_t *) 0x4005C420))
 #define ADCACTSS     (*((volatile uint32_t *) 0x40038000))
 #define ADCEMUX      (*((volatile uint32_t *) 0x40038014))
-#define ADCSSMUX     (*((volatile uint32_t *) 0x40038040))
+#define ADCSSMUX3    (*((volatile uint32_t *) 0x400380A0))
+#define ADCSSEMUX3   (*((volatile uint32_t *) 0x400380B8))
 #define ADCSSCTL3    (*((volatile uint32_t *) 0x400380A4))
 #define ADCRIS       (*((volatile uint32_t *) 0x40038004))
+#define ADCISC       (*((volatile uint32_t *) 0x4003800C))
+#define GPTMCTL_0    (*((volatile uint32_t *) 0x4003000C))
+#define GPTMADCEV    (*((volatile uint32_t *) 0x40030070))
+#define ADCSSFIFO3   (*((volatile uint32_t *) 0x400380A8))
+#define ADCIM       (*((volatile uint32_t *) 0x40038008))
+
+
+
+#define NVIC_EN0   (*((volatile uint32_t *) 0xE000E100))
+#define NVIC_EN1   (*((volatile uint32_t *) 0xE000E104))
+#define NVIC_EN2   (*((volatile uint32_t *) 0xE000E108))
+
 
 #endif  // _ADC_HEADER_H_

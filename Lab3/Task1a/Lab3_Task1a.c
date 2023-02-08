@@ -46,7 +46,8 @@ int main(void) {
 void ADC0SS3_Handler(void) {
   // STEP 4: Implement the ADC ISR.
   // 4.1: Clear the ADC0 interrupt flag
-
+  ADCISC |= 0x8; // module 0, but we want SS3
   // 4.2: Save the ADC value to global variable ADC_value
-
+  ADC_value = ADCSSFIFO3;
+  
 }
