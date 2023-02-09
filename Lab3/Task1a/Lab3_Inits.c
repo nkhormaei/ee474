@@ -60,7 +60,10 @@ void LED_Init(void) {
   // STEP 1: Initialize the 4 on board LEDs by initializing the corresponding
   // GPIO pins.
   
-  RCGCGPIO |= 0xFFFF;
+  volatile unsigned short delay = 0; // always need this for rcg registers
+  RCGCGPIO |= 0x1020;
+  delay++;
+  delay++;
   GPIODIR_F = 0x11;
   GPIODEN_F = 0x11; 
   GPIODIR_N = 0x3;
@@ -81,12 +84,11 @@ void ADCReadPot_Init(void) {
   // 2.4: Wait for the PLL to lock
   while (PLLSTAT != 0x1); // we did this for you
   // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG ????
-  ALTCLKCFG = 0x0;
-  ADCCC = 0x1;
+  ADCCC |= 0x1;
   
+ 
   // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1) ????
-  GPIODEN_E = 0x0;
-  GPIOAMSEL_E |= 0x8;
+  RCGCGPIO |= 0x10;
   
   // 2.7: Delay for RCGCGPIO
   delay++;
@@ -96,34 +98,32 @@ void ADCReadPot_Init(void) {
   GPIOAFSEL_E |= 0x8;
   
   // 2.9: Clear the GPIODEN bits for the ADC input pins
-  GPIODEN_E = 0x0;
+  GPIODEN_E &= (~0x8);
   
   // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
   GPIOAMSEL_E |= 0x8; // want analog isolation to be disabled
   
   // 2.11: Disable sample sequencer 3 (SS3)
-  ADCACTSS = 0x0;
+  ADCACTSS &= (~0x8);
   
   // 2.12: Select timer as the trigger for SS3 ????
-  ADCEMUX = 0x5000; // changed this
+  ADCEMUX |= 0x5000; // changed this
   
   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-  //ADCSSEMUX3 = 0x1;
   ADCSSEMUX3 &= ~0x1; // uses pins 0-15
-  ADCSSMUX3 = (ADCSSMUX3 & ~0xF);
+  ADCSSMUX3 &= ~0xF;
   
   // 2.14: Configure ADCSSCTL3 register
   ADCSSCTL3 = 0x6; //0110
   
   // 2.15: Set the SS3 interrupt mask ??????
   ADCIM |= 0x8; // added this
-  //ADCRIS |= 0x8; 
   
   // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC ??????
-  NVIC_EN0 |= 0x8; // added this
+  NVIC_EN0 |= (1 << 17); // added this
   
   // 2.17: Enable ADC0 SS3
-  ADCACTSS = 0x8;
+  ADCACTSS |= 0x8;
 
 }
 
@@ -153,7 +153,6 @@ void TimerADCTriger_Init(void) {
     
   GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
   
-   
 }
 
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler

@@ -21,6 +21,7 @@
 #define GPIODEN_E    (*((volatile uint32_t *) 0x4005C15C))
 #define GPIOAMSEL_E  (*((volatile uint32_t *) 0x4005C528))
 #define GPIOAFSEL_E  (*((volatile uint32_t *) 0x4005C420))
+
 #define ADCACTSS     (*((volatile uint32_t *) 0x40038000))
 #define ADCEMUX      (*((volatile uint32_t *) 0x40038014))
 #define ADCSSMUX3    (*((volatile uint32_t *) 0x400380A0))

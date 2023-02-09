@@ -6,6 +6,7 @@
 // implementing Lab3_Driver.c (STEP 0a, 1-3) and then come back to finish
 // the ISR and the main function (STEP 0b, 4-5).
 
+#include <stdio.h>
 #include <stdint.h>
 #include "Lab3_Inits.h"
 
