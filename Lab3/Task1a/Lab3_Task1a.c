@@ -27,6 +27,7 @@ int main(void) {
     // STEP 5: Change the pattern of LEDs based on the resistance.
     // 5.1: Convert ADC_value to resistance in kilo-ohm
     resistance = ADC_value / 4095.0 * 10.0;
+    printf("%d", resistance);
     // 5.2: Change the pattern of LEDs based on the resistance
     if (resistance < 2.5) {
         GPIODATA_N = 0x2;

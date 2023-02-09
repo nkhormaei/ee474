@@ -108,7 +108,7 @@ void ADCReadPot_Init(void) {
   ADCEMUX = 0x5000; // changed this
   
   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-  // ADCSSMUX = 0x1;
+  //ADCSSEMUX3 = 0x1;
   ADCSSEMUX3 &= ~0x1; // uses pins 0-15
   ADCSSMUX3 = (ADCSSMUX3 & ~0xF);
   
@@ -130,8 +130,30 @@ void ADCReadPot_Init(void) {
 void TimerADCTriger_Init(void) {
   // STEP 3: Initialize Timer0A to trigger ADC0 at 1 HZ.
   // Hint: Refer to section 13.3.7 of the datasheet
-  GPTMCTL_0 = 0x20;
-  GPTMADCEV = 0x2;
+  
+  // from last lab, initializing timer
+  volatile unsigned short delay = 0; 
+  delay++;           // Delay 2 more cycles before access Timer registers 
+  delay++;           // Refer to Page. 756 of Datasheet for info 
+  RCGCTIMER |= 0x1; // Enable the appropriate TIMERn bit in the RCGCTIMER register
+  GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
+  
+  GPTMCFG_0 = 0x00; // Write 0x0000.0000 to the GPTMCFG register, 
+  GPTMCFG_0 &= 0x00; //select 32-bit mode using the GPTMCFG register
+  
+  GPTMTAMR_0 &= ~0x10; // Configure the TACDIR bit of the GPTMTAMR register to count down
+  GPTMTAMR_0 |= 0x2; // Puts in periodic timer mode
+  
+  GPTMTAILR_0 = 60000000;// Load the value 60,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
+  GPTMIMR_0 = 0x1; // Configure GPTMIMR register for interrupts
+  
+  // from this lab
+  GPTMADCEV |= 0x1;
+  GPTMCTL_0 |= 0x20;
+    
+  GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
+  
+   
 }
 
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler
