@@ -35,7 +35,7 @@ int main(void) {
     
     uint32_t switch_one = (GPIODATA_J & 0x1); // looking at first bit for switch 1
     uint32_t switch_two = (GPIODATA_J & 0x2); // looking at second bi for switch 2
-  
+ 
     // depending on the switch, different clock speeds will happen
     if (switch_one == 0x0) { 
       freq = PRESET1;
@@ -47,7 +47,7 @@ int main(void) {
 
       
     PLL_Init(freq);        // Set system clock frequency depending on switch 
-    temp = (147.5 - (247.5 * ADC_value) / 4096.0);
+    temp = (147.5 - ((75)* (3.3) * (ADC_value)) / 4096.0);
     printf("%.2f\n\n", temp); // printing out temperature value
     
   }
@@ -59,6 +59,22 @@ void ADC0SS3_Handler(void) {
   // 4.1: Clear the ADC0 interrupt flag
   ADCISC |= 0x8; // module 0, but we want SS3
   // 4.2: Save the ADC value to global variable ADC_value
-  ADC_value = ADCSSFIFO3;
+  ADC_value = ADCSSFIFO3 & 0xFFF;
   
+  GPTMICR_0 |= 0x1;
+}
+
+void PortJ_Handler(void) {
+  GPIOICR_J |= 0x3;
+  
+  enum frequency freq = PRESET2; // 60 MHz
+  if (GPIODATA_J == 0x1) { 
+    freq = PRESET3; // 12 MHz
+  } else if (GPIODATA_J == 0x2) {
+    freq = PRESET1;
+  } else {
+  freq = PRESET2;
+  
+  PLL_Init(freq);
+  }
 }

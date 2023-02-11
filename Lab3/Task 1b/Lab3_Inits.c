@@ -110,8 +110,8 @@ void ADCReadPot_Init(void) {
   ADCEMUX |= 0x5000; // changed this
   
   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-  ADCSSEMUX3 &= ~0x1; // uses pins 0-15
-  ADCSSMUX3 &= ~0xF;
+  //ADCSSEMUX3 &= ~0x1; // uses pins 0-15
+  //ADCSSMUX3 &= ~0xF;
   
   // 2.14: Configure ADCSSCTL3 register
   ADCSSCTL3 = 0xE; //1110 for temp sensor
