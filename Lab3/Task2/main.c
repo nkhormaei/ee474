@@ -1,35 +1,18 @@
-/**
- * EE/CSE 474: Lab3 Task1a main function
- */
-
-// NOTE: This is the main function for Task 1a. You should start by
-// implementing Lab3_Driver.c (STEP 0a, 1-3) and then come back to finish
-// the ISR and the main function (STEP 0b, 4-5).
-
+#include <stdint.h> 
 #include <stdio.h>
-#include <stdint.h>
+#include "header.h" 
 #include "Lab3_Inits.h"
 
-// STEP 0b: Include your header file here
-// YOUR CUSTOM HEADER FILE HERE
-#include "ADC_Header.h"
 
 uint32_t ADC_value;
-enum frequency freq;
 
-int main(void) {
+int main()
+{
   // Select system clock frequency preset
-  freq = PRESET2; // 60 MHz
-  
+  enum frequency freq = PRESET2; // 60 MHz
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
-  LED_Init();            // Initialize the 4 onboard LEDs (GPIO)
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
   TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
-  
-  GPIODIR_J = 0x00;
-  GPIODEN_J = 0x3;
-  GPIOPUR_J = 0x3;
-  
   float temp; // changed this to temp
   
   while(1) {  
@@ -41,6 +24,7 @@ int main(void) {
   return 0;
 }
 
+
 void ADC0SS3_Handler(void) {
   // STEP 4: Implement the ADC ISR.
   // 4.1: Clear the ADC0 interrupt flag
@@ -49,13 +33,4 @@ void ADC0SS3_Handler(void) {
   ADC_value = ADCSSFIFO3 & 0xFFF;
   
   GPTMICR_0 |= 0x1;
-}
-
-void PortJ_Handler(void) {
-  GPIOICR_J |= 0x3;
-  if (GPIODATA_J == 0x1) { 
-    freq = PRESET3; // 12 MHz
-  } else {
-    freq = PRESET1;
-  }
 }
