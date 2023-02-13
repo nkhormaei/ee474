@@ -98,10 +98,10 @@ void ADCReadPot_Init(void) {
   // 2.14: Configure ADCSSCTL3 register
   ADCSSCTL3 = 0xE; //1110 for temp sensor
   
-  // 2.15: Set the SS3 interrupt mask ??????
+  // 2.15: Set the SS3 interrupt mask
   ADCIM |= 0x8; // added this
   
-  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC ??????
+  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
   NVIC_EN0 |= (1 << 17); // added this
   
   // 2.17: Enable ADC0 SS3
@@ -134,6 +134,34 @@ void TimerADCTriger_Init(void) {
   GPTMCTL_0 |= 0x20;
     
   GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
+  
+}
+
+void UART_Init(void) {
+  volatile unsigned short delay = 0;
+  RCGCUART = 0x1; // enable clock for UART module 0
+  delay++; // delay 3 cycles
+  delay++;
+  delay++;
+  
+  RCGCGPIO |= 0x1; // enable port A
+  delay++; // delay
+  delay++;
+  GPIOAFSEL_A = 0x3; // set A0 A1 for alternative hardware function
+  GPIOPCTL_A |= 0x11; // programming pmcn field to assign UART signal to GPIO A0, A1
+  
+  UART0CTL = 0x0; // disable for setting registers
+  UART0IBRD = 0x68; // integer baud-rate divisor (104)
+  UART0FBRD = 0xB; // fractional baud-rate divisor (11)
+  UART0LCRH |= 0x60; // set word length to 8 bit
+  UART0CC = 0x5; // set clock to ALTCLKCFG
+  UART0CTL = 0x1; // enable UART
+  
+  UART0LCRH |= 0x10; // enable UART FIFO ????
+  
+  UART0IM = 0x3FFFF; // enable interrupts
+  NVIC_EN0 |= (1 << 5); // enable interrupts
+  
   
 }
 

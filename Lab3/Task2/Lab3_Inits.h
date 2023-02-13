@@ -29,4 +29,7 @@ void ADCReadPot_Init(void);
 // Initializes Timer 0A to trigger ADC0 at 1 HZ.
 void TimerADCTriger_Init(void);
 
+// Initiailize UART registers
+void UART_Init(void);
+
 #endif  // _Lab3_Inits_H_

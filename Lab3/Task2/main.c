@@ -5,6 +5,7 @@
 
 
 uint32_t ADC_value;
+uint32_t UART0_value;
 
 int main()
 {
@@ -13,6 +14,7 @@ int main()
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
   TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
+  UART_Init();           // Initializes UART registers
   float temp; // changed this to temp
   
   while(1) {  
@@ -33,4 +35,14 @@ void ADC0SS3_Handler(void) {
   ADC_value = ADCSSFIFO3 & 0xFFF;
   
   GPTMICR_0 |= 0x1;
+}
+
+void UART0_Handler(void) {
+  UART0CTL = 0x0; // disable
+  while (!(UART0FR & 0x8)) {};// wait til transmission complete
+  UART0_value = UART0DR & 0xFF; // read data
+  UART0LCRH &= ~0x10; //  Flush the transmit FIFO by clearing bit 4 (FEN) in the line control register (UARTLCRH)
+  UART0LCRH |= 0x10; // Reprogram the control register
+  UART0CTL = 0x1; // Enable the UART
+  
 }

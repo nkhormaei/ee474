@@ -45,4 +45,17 @@
 #define PLLSTAT      (*(volatile uint32_t *) 0x400FE168)
 #define MEMTIM0      (*(volatile uint32_t *) 0x400FE0C0)
 
+// ******************** UART CONTROL REGISTERS ********************** //
+#define RCGCUART     (*(volatile uint32_t *) 0x400FE618)
+#define UART0CTL     (*(volatile uint32_t *) 0x4000C030)
+#define UART0LCRH    (*(volatile uint32_t *) 0x4000C02C)
+#define UART0IM      (*(volatile uint32_t *) 0x4000C038)
+#define UART0DR      (*(volatile uint32_t *) 0x4000C000)
+#define UART0FR      (*(volatile uint32_t *) 0x4000C018)
+#define UART0IBRD    (*(volatile uint32_t *) 0x4000C024)
+#define UART0FBRD    (*(volatile uint32_t *) 0x4000C028)
+#define GPIOAFSEL_A  (*(volatile uint32_t *) 0x40058420)
+#define GPIOPCTL_A   (*(volatile uint32_t *) 0x4005852C)
+#define UART0CC      (*(volatile uint32_t *) 0x4000CFC8)
+
 #endif //__HEADER1_H__ 
