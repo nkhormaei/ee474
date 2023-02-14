@@ -26,9 +26,9 @@ int main()
 }
 
 void sendTemp (float temp) {
+  uint32_t fbits = 0;
+  memcpy(&fbits, &temp, sizeof fbits);
   for (int i = 0; i < 32; i++) {
-    uint32_t fbits = 0;
-    memcpy(&fbits, &temp, sizeof fbits);
     uint32_t bit = fbits & (1 << i);
     while (!(UART0FR & 0x8)) {};
     UART0DR = bit;
