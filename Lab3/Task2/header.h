@@ -60,4 +60,7 @@
 
 #define GPIODEN_A    (*(volatile uint32_t *) 0x4005851C)
 
+// send temp from UART to computer
+void sendTemp(float temp);
+
 #endif //__HEADER1_H__ 

@@ -20,13 +20,20 @@ int main()
   while(1) {  
     PLL_Init(freq);        // Set system clock frequency depending on switch 
     temp = (147.5 - ((75)* (3.3) * (ADC_value)) / 4096.0);
-    printf("%.2f\n\n", temp); // printing out temperature value
-    
+    sendTemp(temp);
   }
   return 0;
 }
 
-
+void sendTemp (float temp) {
+  for (int i = 0; i < 32; i++) {
+    uint32_t fbits = 0;
+    memcpy(&fbits, &temp, sizeof fbits);
+    uint32_t bit = fbits & (1 << i);
+    while (!(UART0FR & 0x8)) {};
+    UART0DR = bit;
+  }
+}
 void ADC0SS3_Handler(void) {
   // STEP 4: Implement the ADC ISR.
   // 4.1: Clear the ADC0 interrupt flag

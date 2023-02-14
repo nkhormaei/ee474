@@ -157,7 +157,7 @@ void UART_Init(void) {
   UART0FBRD = 0xB; // fractional baud-rate divisor (11)
   UART0LCRH |= 0x70; // set word length to 8 bit and FIFO
   UART0CC = 0x5; // set clock to ALTCLKCFG
-  
+  UART0CTL |= 0x300; // enable UART transmit and recieve ????????????????????
   UART0CTL |= 0x1; // enable UART
   
   //UART0IM = 0x3FFFF; // enable interrupts
