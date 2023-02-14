@@ -37,12 +37,12 @@ void ADC0SS3_Handler(void) {
   GPTMICR_0 |= 0x1;
 }
 
-void UART0_Handler(void) {
-  UART0CTL = 0x0; // disable
-  while (!(UART0FR & 0x8)) {};// wait til transmission complete
-  UART0_value = UART0DR & 0xFF; // read data
-  UART0LCRH &= ~0x10; //  Flush the transmit FIFO by clearing bit 4 (FEN) in the line control register (UARTLCRH)
-  UART0LCRH |= 0x10; // Reprogram the control register
-  UART0CTL = 0x1; // Enable the UART
+//void UART0_Handler(void) {
+  //UART0CTL = 0x0; // disable
+  //while (!(UART0FR & 0x8)) {};// wait til transmission complete
+  //UART0_value = UART0DR & 0xFF; // read data
+  //UART0LCRH &= ~0x10; //  Flush the transmit FIFO by clearing bit 4 (FEN) in the line control register (UARTLCRH)
+  //UART0LCRH |= 0x10; // Reprogram the control register
+  //UART0CTL = 0x1; // Enable the UART
   
-}
+//}

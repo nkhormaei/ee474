@@ -58,4 +58,6 @@
 #define GPIOPCTL_A   (*(volatile uint32_t *) 0x4005852C)
 #define UART0CC      (*(volatile uint32_t *) 0x4000CFC8)
 
+#define GPIODEN_A    (*(volatile uint32_t *) 0x4005851C)
+
 #endif //__HEADER1_H__ 

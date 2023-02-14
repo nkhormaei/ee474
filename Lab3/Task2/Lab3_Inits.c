@@ -147,21 +147,21 @@ void UART_Init(void) {
   RCGCGPIO |= 0x1; // enable port A
   delay++; // delay
   delay++;
+  
   GPIOAFSEL_A = 0x3; // set A0 A1 for alternative hardware function
   GPIOPCTL_A |= 0x11; // programming pmcn field to assign UART signal to GPIO A0, A1
+  GPIODEN_A |= 0x3; // digital for port A's 0 and 1 **added this**
   
-  UART0CTL = 0x0; // disable for setting registers
+  UART0CTL |= 0x0; // disable for setting registers
   UART0IBRD = 0x68; // integer baud-rate divisor (104)
   UART0FBRD = 0xB; // fractional baud-rate divisor (11)
-  UART0LCRH |= 0x60; // set word length to 8 bit
+  UART0LCRH |= 0x70; // set word length to 8 bit and FIFO
   UART0CC = 0x5; // set clock to ALTCLKCFG
-  UART0CTL = 0x1; // enable UART
   
-  UART0LCRH |= 0x10; // enable UART FIFO ????
+  UART0CTL |= 0x1; // enable UART
   
-  UART0IM = 0x3FFFF; // enable interrupts
-  NVIC_EN0 |= (1 << 5); // enable interrupts
-  
+  //UART0IM = 0x3FFFF; // enable interrupts
+  //NVIC_EN0 |= (1 << 17); // enable interrupts 
   
 }
 
