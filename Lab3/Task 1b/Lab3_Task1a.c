@@ -19,7 +19,7 @@ enum frequency freq;
 
 int main(void) {
   // Select system clock frequency preset
-  freq = PRESET2; // 60 MHz
+  freq = PRESET1; // 60 MHz
   
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   LED_Init();            // Initialize the 4 onboard LEDs (GPIO)
@@ -37,6 +37,18 @@ int main(void) {
     temp = (147.5 - ((75)* (3.3) * (ADC_value)) / 4096.0);
     printf("%.2f\n\n", temp); // printing out temperature value
     
+    if (GPIODATA_J & 0x1) {
+      freq = PRESET1;
+      GPTMCTL_0 &= ~(0x1);
+      GPTMTAILR_0 = 12000000;
+      GPTMCTL_0 |= 0x1;
+    } else if (GPIODATA_J & 0x2) {
+      freq = PRESET3;
+      GPTMCTL_0 &= ~(0x1);
+      GPTMTAILR_0 = 120000000;
+      GPTMCTL_0 |= 0x1;
+    }
+    
   }
   return 0;
 }
@@ -51,11 +63,11 @@ void ADC0SS3_Handler(void) {
   GPTMICR_0 |= 0x1;
 }
 
-void PortJ_Handler(void) {
+/*void PortJ_Handler(void) {
   GPIOICR_J |= 0x3;
   if (GPIODATA_J == 0x1) { 
-    freq = PRESET3; // 12 MHz
+    PLL_Init(PRESET3); // 12 MHz
   } else {
-    freq = PRESET1;
+    PLL_Init(PRESET1); 
   }
-}
+}*/

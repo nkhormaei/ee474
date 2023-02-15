@@ -10,29 +10,52 @@ uint32_t UART0_value;
 int main()
 {
   // Select system clock frequency preset
-  enum frequency freq = PRESET2; // 60 MHz
+  enum frequency freq = PRESET1; // 60 MHz
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
   TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
   UART_Init();           // Initializes UART registers
   float temp; // changed this to temp
   
+  GPIODIR_J = 0x00;
+  GPIODEN_J = 0x3;
+  GPIOPUR_J = 0x3;
+  
+  
   while(1) {  
     PLL_Init(freq);        // Set system clock frequency depending on switch 
     temp = (147.5 - ((75)* (3.3) * (ADC_value)) / 4096.0);
+    //sendTemp(temp);
+    if (GPIODATA_J & 0x1) {
+      freq = PRESET1;
+      //GPTMCTL_0 &= ~(0x1);
+      //GPTMTAILR_0 = 12000000;
+      //GPTMCTL_0 |= 0x1;
+    } else if (GPIODATA_J & 0x2) {
+      freq = PRESET3;
+      //GPTMCTL_0 &= ~(0x1);
+      //GPTMTAILR_0 = 120000000;
+      //GPTMCTL_0 |= 0x1;
+    }
     sendTemp(temp);
   }
   return 0;
 }
 
 void sendTemp (float temp) {
-  uint32_t fbits = 0;
-  memcpy(&fbits, &temp, sizeof fbits);
+  // create char array
+  // loop through bits
+  // check if uart is busy
+  // if uart is busy then wait
+  // if uart is not busy then send 
+  char str[32];
+  sprintf(str, "Temperature is %.2f\r\n", temp);
   for (int i = 0; i < 32; i++) {
-    uint32_t bit = fbits & (1 << i);
-    while (!(UART0FR & 0x8)) {};
-    UART0DR = bit;
+    while ((UART0FR & 0x8)) {};
+    UART0DR = str[i];
   }
+  
+
 }
 void ADC0SS3_Handler(void) {
   // STEP 4: Implement the ADC ISR.

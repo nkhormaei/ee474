@@ -144,7 +144,7 @@ void UART_Init(void) {
   delay++;
   delay++;
   
-  RCGCGPIO |= 0x1; // enable port A
+  RCGCGPIO |= 0x101; // enable port A and J (100000001)
   delay++; // delay
   delay++;
   
