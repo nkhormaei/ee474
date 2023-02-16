@@ -1,20 +1,18 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.11.3.13950/W32 for ARM                14/Feb/2023  23:49:50
+# IAR ELF Linker V8.11.3.13950/W32 for ARM                15/Feb/2023  17:33:44
 # Copyright 2007-2017 IAR Systems AB.
 #
-#    Output file  =  
-#        C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Exe\task2.out
-#    Map file     =  
-#        C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\List\task2.map
+#    Output file  =  C:\first_project_474\Lab3\Task2b\Debug\Exe\task2.out
+#    Map file     =  C:\first_project_474\Lab3\Task2b\Debug\List\task2.map
 #    Command line =  
-#        -f C:\Users\fishtail\AppData\Local\Temp\EW2D9E.tmp
-#        (C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Obj\Lab3_Inits.o
-#        C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Obj\main.o -o
-#        C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Exe\task2.out
-#        --redirect _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb
-#        --map C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\List\task2.map
-#        --config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        -f C:\Users\khormnic\AppData\Local\Temp\EW2C5F.tmp
+#        (C:\first_project_474\Lab3\Task2b\Debug\Obj\Lab3_Inits.o
+#        C:\first_project_474\Lab3\Task2b\Debug\Obj\main.o -o
+#        C:\first_project_474\Lab3\Task2b\Debug\Exe\task2.out --redirect
+#        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
+#        C:\first_project_474\Lab3\Task2b\Debug\List\task2.map --config
+#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.0\arm\config\linker\TexasInstruments\TM4C1294NC.icf" --semihosting
 #        --entry __iar_program_start --vfe --text_out locale)
 #
@@ -25,6 +23,7 @@
 ***
 
 CppFlavor       = *
+__Heap_Handler  = Basic
 __SystemLibrary = DLib
 __dlib_version  = 6
 
@@ -48,32 +47,125 @@ define block CSTACK with size = 32K, alignment = 8 { };
 define block HEAP with size = 64K, alignment = 8 { };
 "P2":  place in [from 0x20000000 to 0x2003ffff] {
           rw, block CSTACK, block HEAP };
+initialize by copy { rw };
 
-  Section   Kind        Address    Size  Object
-  -------   ----        -------    ----  ------
-"A0":                              0x40
-  .intvec   ro code  0x00000000    0x40  vector_table_M.o [5]
-                   - 0x00000040    0x40
+  Section            Kind        Address     Size  Object
+  -------            ----        -------     ----  ------
+"A0":                                        0x40
+  .intvec            ro code  0x00000000     0x40  vector_table_M.o [5]
+                            - 0x00000040     0x40
 
-"P1":                             0x4fc
-  .text     ro code  0x00000040   0x3ec  Lab3_Inits.o [1]
-  .text     ro code  0x0000042c    0x60  main.o [1]
-  .text     ro code  0x0000048c     0x6  ABImemclr4.o [5]
-  .text     ro code  0x00000492     0x2  vector_table_M.o [5]
-  .text     ro code  0x00000494    0x32  ABImemset48.o [5]
-  .text     ro code  0x000004c8    0x22  fpinit_M.o [4]
-  .text     ro code  0x000004ec    0x1a  cmain.o [5]
-  .text     ro code  0x00000506     0x4  low_level_init.o [3]
-  .text     ro code  0x0000050a     0x4  exit.o [3]
-  .text     ro code  0x00000510     0xa  cexit.o [5]
-  .text     ro code  0x0000051c    0x14  exit.o [6]
-  .text     ro code  0x00000530     0xc  cstartup_M.o [5]
-                   - 0x0000053c   0x4fc
+"P1":                                      0x27c1
+  .text              ro code  0x00000040    0xe0e  xprintffull_nomb.o [3]
+  .text              ro code  0x00000e4e     0x7a  lz77_init_single.o [5]
+  .text              ro code  0x00000ec8     0x16  strchr.o [5]
+  .text              ro code  0x00000ede      0x2  vector_table_M.o [5]
+  .text              ro code  0x00000ee0     0x44  xfail_s.o [3]
+  .text              ro code  0x00000f24     0x36  strlen.o [5]
+  .text              ro code  0x00000f5c     0x58  memchr.o [5]
+  .text              ro code  0x00000fb4     0xee  I64DivMod.o [5]
+  .text              ro code  0x000010a4    0x1a2  DblMul.o [4]
+  .text              ro code  0x00001248     0x76  ABImemcpy_unaligned.o [5]
+  .text              ro code  0x000012c0     0x70  frexp.o [4]
+  .text              ro code  0x00001330     0x2e  DblCmpLe.o [4]
+  .text              ro code  0x00001360     0x2e  DblCmpGe.o [4]
+  .text              ro code  0x00001390    0x13a  ldexp.o [4]
+  .text              ro code  0x000014cc     0x3a  DblToS32.o [4]
+  .text              ro code  0x00001508     0x22  S32ToDbl.o [4]
+  .text              ro code  0x0000152c     0xe2  DblSub.o [4]
+  .text              ro code  0x00001610    0x246  DblDiv.o [4]
+  .text              ro code  0x00001858     0x28  DblToU32.o [4]
+  .text              ro code  0x00001880     0x1a  U32ToDbl.o [4]
+  .text              ro code  0x0000189c      0x8  xlocale_c.o [3]
+  .text              ro code  0x000018a4      0x6  abort.o [3]
+  .text              ro code  0x000018ac      0x2  I64DivZer.o [5]
+  .text              ro code  0x000018b0    0x168  DblAdd.o [4]
+  .text              ro code  0x00001a18     0x14  exit.o [6]
+  .text              ro code  0x00001a2c     0x68  iarttio.o [6]
+  .text              ro code  0x00001a94      0x8  XShttio.o [3]
+  .text              ro code  0x00001a9c    0x434  Lab3_Inits.o [1]
+  .text              ro code  0x00001ed0    0x144  heap0.o [3]
+  .text              ro code  0x00002014     0x2c  xgetmemchunk.o [3]
+  .text              ro code  0x00002040     0xd8  xfspos.o [3]
+  .text              ro code  0x00002118     0xac  fflush.o [3]
+  .text              ro code  0x000021c4      0xc  xfgpos.o [3]
+  .text              ro code  0x000021d0     0x4c  lseek.o [6]
+  .text              ro code  0x0000221c     0x10  write.o [6]
+  .text              ro code  0x0000222c     0xcc  XShHandles.o [3]
+  .text              ro code  0x000022f8     0x1e  dwrite.o [6]
+  .text              ro code  0x00002316     0x20  iarwstd.o [6]
+  .text              ro code  0x00002336     0x22  iarwrite.o [6]
+  .text              ro code  0x00002358     0xb4  xfwprep.o [3]
+  .text              ro code  0x0000240c     0x24  fseek.o [3]
+  .text              ro code  0x00002430     0x7e  fclose.o [3]
+  .text              ro code  0x000024b0     0x7c  xfofind.o [3]
+  .text              ro code  0x0000252c      0x4  heaptramp0.o [3]
+  .text              ro code  0x00002530     0x1a  close.o [6]
+  .text              ro code  0x0000254a     0x16  remove.o [6]
+  .text              ro code  0x00002560     0x6c  main.o [1]
+  .text              ro code  0x000025cc     0x28  printf.o [3]
+  .text              ro code  0x000025f4     0x56  fputc.o [3]
+  .text              ro code  0x0000264a     0x40  zero_init3.o [5]
+  .text              ro code  0x0000268c     0x3c  xcloseall.o [3]
+  .text              ro code  0x000026c8     0x28  data_init.o [5]
+  .text              ro code  0x000026f0     0x22  fpinit_M.o [4]
+  .iar.init_table    const    0x00002714     0x20  - Linker created -
+  .text              ro code  0x00002734     0x1a  cmain.o [5]
+  .text              ro code  0x0000274e      0x4  low_level_init.o [3]
+  .text              ro code  0x00002752      0x4  exit.o [3]
+  .text              ro code  0x00002758      0xe  cexit.o [5]
+  .text              ro code  0x00002766     0x16  xprout.o [3]
+  .text              ro code  0x0000277c      0xc  putchar.o [3]
+  .text              ro code  0x00002788      0xc  cstartup_M.o [5]
+  .rodata            const    0x00002794      0x4  xlocale_c.o [3]
+  .text              ro code  0x00002798      0x0  cstart_closeall.o [5]
+  .rodata            const    0x00002798      0x0  zero_init3.o [5]
+  .rodata            const    0x00002798      0x0  lz77_init_single.o [5]
+  Initializer bytes  const    0x00002798     0x69  <for P2-1>
+                            - 0x00002801   0x27c1
 
-"P2":                            0x8000
-  CSTACK             0x20000000  0x8000  <Block>
-    CSTACK  uninit   0x20000000  0x8000  <Block tail>
-                   - 0x20008000  0x8000
+"P2", part 1 of 3:                          0x138
+  P2-1                        0x20000000    0x138  <Init block>
+    .data            inited   0x20000000     0x38  xlocale_c.o [3]
+    .data            inited   0x20000038     0x48  xfiles.o [3]
+    .data            inited   0x20000080     0x48  xfiles.o [3]
+    .data            inited   0x200000c8     0x48  xfiles.o [3]
+    .data            inited   0x20000110     0x20  xfiles.o [3]
+    .data            inited   0x20000130      0x8  XShttio.o [3]
+                            - 0x20000138    0x138
+
+"P2", part 2 of 3:                          0x130
+  .bss               zero     0x20000138     0x80  XShHandles.o [3]
+  .bss               zero     0x200001b8     0x50  xfiles.o [3]
+  .bss               zero     0x20000208     0x50  xfiles.o [3]
+  .bss               zero     0x20000258      0x8  heap0.o [3]
+  .bss               zero     0x20000260      0x4  xfail_s.o [3]
+  .bss               zero     0x20000264      0x4  xgetmemchunk.o [3]
+                            - 0x20000268    0x130
+
+"P2", part 3 of 3:                        0x18000
+  CSTACK                      0x20000268   0x8000  <Block>
+    CSTACK           uninit   0x20000268   0x8000  <Block tail>
+  HEAP                        0x20008268  0x10000  <Block>
+    HEAP             uninit   0x20008268  0x10000  <Block tail>
+                            - 0x20018268  0x18000
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address     Size
+          -------     ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0x130:
+          0x20000138  0x130
+
+Copy/lz77 (__iar_lz77_init_single3)
+    1 source range, total size 0x69 (33% of destination):
+          0x00002798   0x69
+    1 destination range, total size 0x138:
+          0x20000000  0x138
 
 
 
@@ -81,48 +173,98 @@ define block HEAP with size = 64K, alignment = 8 { };
 *** MODULE SUMMARY
 ***
 
-    Module            ro code  rw data
-    ------            -------  -------
-C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Obj: [1]
-    Lab3_Inits.o        1 004
-    main.o                 96
-    ----------------------------------
-    Total:              1 100
+    Module                 ro code  ro data  rw data
+    ------                 -------  -------  -------
+C:\first_project_474\Lab3\Task2b\Debug\Obj: [1]
+    Lab3_Inits.o             1 076
+    main.o                     108
+    ------------------------------------------------
+    Total:                   1 184
 
 command line: [2]
-    ----------------------------------
+    ------------------------------------------------
     Total:
 
 dl7M_tlf.a: [3]
-    exit.o                  4
-    low_level_init.o        4
-    ----------------------------------
-    Total:                  8
+    XShHandles.o               204               128
+    XShttio.o                    8        3        8
+    abort.o                      6
+    exit.o                       4
+    fclose.o                   126
+    fflush.o                   172
+    fputc.o                     86
+    fseek.o                     36
+    heap0.o                    324                 8
+    heaptramp0.o                 4
+    low_level_init.o             4
+    printf.o                    40
+    putchar.o                   12
+    xcloseall.o                 60
+    xfail_s.o                   68                 4
+    xfgpos.o                    12
+    xfiles.o                             84      408
+    xfofind.o                  124
+    xfspos.o                   216
+    xfwprep.o                  180
+    xgetmemchunk.o              44                 4
+    xlocale_c.o                  8       22       56
+    xprintffull_nomb.o       3 598
+    xprout.o                    22
+    ------------------------------------------------
+    Total:                   5 358      109      616
 
 m7M_tls.a: [4]
-    fpinit_M.o             34
-    ----------------------------------
-    Total:                 34
+    DblAdd.o                   360
+    DblCmpGe.o                  46
+    DblCmpLe.o                  46
+    DblDiv.o                   582
+    DblMul.o                   418
+    DblSub.o                   226
+    DblToS32.o                  58
+    DblToU32.o                  40
+    S32ToDbl.o                  34
+    U32ToDbl.o                  26
+    fpinit_M.o                  34
+    frexp.o                    112
+    ldexp.o                    314
+    ------------------------------------------------
+    Total:                   2 296
 
 rt7M_tl.a: [5]
-    ABImemclr4.o            6
-    ABImemset48.o          50
-    cexit.o                10
-    cmain.o                26
-    cstartup_M.o           12
-    vector_table_M.o       66
-    ----------------------------------
-    Total:                170
+    ABImemcpy_unaligned.o      118
+    I64DivMod.o                238
+    I64DivZer.o                  2
+    cexit.o                     14
+    cmain.o                     26
+    cstart_closeall.o
+    cstartup_M.o                12
+    data_init.o                 40
+    lz77_init_single.o         122
+    memchr.o                    88
+    strchr.o                    22
+    strlen.o                    54
+    vector_table_M.o            66
+    zero_init3.o                64
+    ------------------------------------------------
+    Total:                     866
 
 shb_l.a: [6]
-    exit.o                 20
-    ----------------------------------
-    Total:                 20
+    close.o                     26
+    dwrite.o                    30
+    exit.o                      20
+    iarttio.o                  104
+    iarwrite.o                  34
+    iarwstd.o                   32
+    lseek.o                     76
+    remove.o                    22
+    write.o                     16
+    ------------------------------------------------
+    Total:                     360
 
-    Gaps                    8
-    Linker created              32 768
---------------------------------------
-    Grand Total:        1 340   32 768
+    Gaps                        34        2
+    Linker created                       32   98 304
+----------------------------------------------------
+    Grand Total:            10 098      143   98 920
 
 
 *******************************************************************************
@@ -131,43 +273,147 @@ shb_l.a: [6]
 
 Entry                      Address   Size  Type      Object
 -----                      -------   ----  ----      ------
-?main                   0x000004ed         Code  Gb  cmain.o [5]
-ADCReadPot_Init         0x000001ad   0xbe  Code  Gb  Lab3_Inits.o [1]
-CSTACK$$Base            0x20000000          --   Gb  - Linker created -
-CSTACK$$Limit           0x20008000          --   Gb  - Linker created -
-PLL_Init                0x00000041  0x16c  Code  Gb  Lab3_Inits.o [1]
-Region$$Table$$Base     0x00000000          --   Gb  - Linker created -
-Region$$Table$$Limit    0x00000000          --   Gb  - Linker created -
-TimerADCTriger_Init     0x0000026b   0x90  Code  Gb  Lab3_Inits.o [1]
-UART_Init               0x000002fb   0xae  Code  Gb  Lab3_Inits.o [1]
-__aeabi_memclr4         0x0000048d         Code  Gb  ABImemclr4.o [5]
-__cmain                 0x000004ed         Code  Gb  cmain.o [5]
-__exit                  0x0000051d   0x14  Code  Gb  exit.o [6]
-__iar_Memset4_word      0x00000495         Code  Gb  ABImemset48.o [5]
-__iar_Memset8_word      0x00000495         Code  Gb  ABImemset48.o [5]
-__iar_init_vfp          0x000004c9         Code  Gb  fpinit_M.o [4]
-__iar_program_start     0x00000531         Code  Gb  cstartup_M.o [5]
+.iar.init_table$$Base   0x00002714          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x00002734          --   Gb  - Linker created -
+?main                   0x00002735         Code  Gb  cmain.o [5]
+ADCReadPot_Init         0x00001c19   0xbe  Code  Gb  Lab3_Inits.o [1]
+Aldata                  0x20000258    0x8  Data  Lc  heap0.o [3]
+CSTACK$$Base            0x20000268          --   Gb  - Linker created -
+CSTACK$$Limit           0x20008268          --   Gb  - Linker created -
+HEAP$$Base              0x20008268          --   Gb  - Linker created -
+HEAP$$Limit             0x20018268          --   Gb  - Linker created -
+LoadInt                 0x000001df   0x7a  Code  Lc  xprintffull_nomb.o [3]
+PLL_Init                0x00001a9d  0x17c  Code  Gb  Lab3_Inits.o [1]
+Region$$Table$$Base     0x00002714          --   Gb  - Linker created -
+Region$$Table$$Limit    0x00002734          --   Gb  - Linker created -
+TimerADCTriger_Init     0x00001cd7   0x90  Code  Gb  Lab3_Inits.o [1]
+UART_Init               0x00001d67   0xe4  Code  Gb  Lab3_Inits.o [1]
+_Close_all              0x0000268d   0x3c  Code  Gb  xcloseall.o [3]
+_Files                  0x20000110   0x20  Data  Gb  xfiles.o [3]
+_Fofree                 0x000024b1   0x78  Code  Gb  xfofind.o [3]
+_Fspos                  0x00002041   0xd8  Code  Gb  xfspos.o [3]
+_Fwprep                 0x00002359   0xb4  Code  Gb  xfwprep.o [3]
+_GenldFullNoMb          0x00000b43  0x27e  Code  Lc  xprintffull_nomb.o [3]
+_LdtobFullNoMb          0x00000727  0x3f0  Code  Lc  xprintffull_nomb.o [3]
+_LitobFullNoMb          0x000005cb  0x116  Code  Lc  xprintffull_nomb.o [3]
+_Locale_lconv           0x20000000   0x38  Data  Lc  xlocale_c.o [3]
+_Nnl                    0x000021c5    0xc  Code  Gb  xfgpos.o [3]
+_PrintfFullNoMb         0x00000041  0x190  Code  Gb  xprintffull_nomb.o [3]
+_Prout                  0x00002767   0x16  Code  Gb  xprout.o [3]
+_PutcharsFullNoMb       0x00000dc1   0x2e  Code  Lc  xprintffull_nomb.o [3]
+_PutfldFullNoMb         0x00000259  0x264  Code  Lc  xprintffull_nomb.o [3]
+_PuttxtFullNoMb         0x000004bd  0x10e  Code  Lc  xprintffull_nomb.o [3]
+__aeabi_cdcmple         0x00001331         Code  Gb  DblCmpLe.o [4]
+__aeabi_cdrcmple        0x00001361         Code  Gb  DblCmpGe.o [4]
+__aeabi_d2iz            0x000014cd         Code  Gb  DblToS32.o [4]
+__aeabi_d2uiz           0x00001859         Code  Gb  DblToU32.o [4]
+__aeabi_ddiv            0x00001611         Code  Gb  DblDiv.o [4]
+__aeabi_dmul            0x000010a5         Code  Gb  DblMul.o [4]
+__aeabi_dsub            0x0000152d         Code  Gb  DblSub.o [4]
+__aeabi_i2d             0x00001509         Code  Gb  S32ToDbl.o [4]
+__aeabi_ldiv0           0x000018ad         Code  Gb  I64DivZer.o [5]
+__aeabi_ui2d            0x00001881         Code  Gb  U32ToDbl.o [4]
+__aeabi_uldivmod        0x00000fb5         Code  Gb  I64DivMod.o [5]
+__basic_free            0x00001f7f   0x16  Code  Gb  heap0.o [3]
+__basic_free_intern     0x00001f95   0x7a  Code  Lc  heap0.o [3]
+__basic_malloc          0x00001ed1   0x18  Code  Gb  heap0.o [3]
+__basic_malloc_intern   0x00001ee9   0x96  Code  Lc  heap0.o [3]
+__cexit_closeall        0x0000275b         Code  Gb  cexit.o [5]
+__close                 0x00002531   0x1a  Code  Gb  close.o [6]
+__cmain                 0x00002735         Code  Gb  cmain.o [5]
+__cstart_closeall       0x00002798         Data  Gb  cstart_closeall.o [5]
+__data_GetMemChunk      0x00002015   0x2c  Code  Gb  xgetmemchunk.o [3]
+__data_GetMemChunk::start
+                        0x20000264    0x4  Data  Lc  xgetmemchunk.o [3]
+__dwrite                0x000022f9   0x1e  Code  Gb  dwrite.o [6]
+__exit                  0x00001a19   0x14  Code  Gb  exit.o [6]
+__iar_Fail_s            0x00000ee1   0x1e  Code  Gb  xfail_s.o [3]
+__iar_Memchr            0x00000f5d         Code  Gb  memchr.o [5]
+__iar_Stderr            0x200000c8   0x48  Data  Gb  xfiles.o [3]
+__iar_Stdin             0x20000038   0x48  Data  Gb  xfiles.o [3]
+__iar_Stdout            0x20000080   0x48  Data  Gb  xfiles.o [3]
+__iar_Strchr            0x00000ec9         Code  Gb  strchr.o [5]
+__iar_close_ttio        0x00001a2d   0x2c  Code  Gb  iarttio.o [6]
+__iar_dadd              0x0000153d         Code  Gb  DblSub.o [4]
+__iar_data_init3        0x000026c9   0x28  Code  Gb  data_init.o [5]
+__iar_dsub              0x000018b1         Code  Gb  DblAdd.o [4]
+__iar_dsubStart         0x000018c3         Code  Gb  DblAdd.o [4]
+__iar_frexp             0x000012cd         Code  Gb  frexp.o [4]
+__iar_frexpl            0x000012cd         Code  Gb  frexp.o [4]
+__iar_get_ttio          0x00001a59   0x38  Code  Gb  iarttio.o [6]
+__iar_init_vfp          0x000026f1         Code  Gb  fpinit_M.o [4]
+__iar_ldexp64           0x00001391         Code  Gb  ldexp.o [4]
+__iar_lookup_ttioh      0x00001a95    0x8  Code  Gb  XShttio.o [3]
+__iar_lz77_init_single3
+                        0x00000e4f   0x7a  Code  Gb  lz77_init_single.o [5]
+__iar_program_start     0x00002789         Code  Gb  cstartup_M.o [5]
+__iar_scalbln64         0x00001391         Code  Gb  ldexp.o [4]
+__iar_scalbn64          0x00001391         Code  Gb  ldexp.o [4]
+__iar_sh_Discard        0x0000222d   0x42  Code  Gb  XShHandles.o [3]
+__iar_sh_Move           0x0000226f   0x46  Code  Gb  XShHandles.o [3]
+__iar_sh_Pos            0x000022b5   0x3e  Code  Gb  XShHandles.o [3]
+__iar_sh_stdout         0x00002317   0x20  Code  Gb  iarwstd.o [6]
+__iar_sh_write          0x00002337   0x22  Code  Gb  iarwrite.o [6]
+__iar_softfp___iar_frexp64
+                        0x000012c1         Code  Gb  frexp.o [4]
+__iar_softfp_frexp      0x000012c1         Code  Gb  frexp.o [4]
+__iar_softfp_frexpl     0x000012c1         Code  Gb  frexp.o [4]
 __iar_systems$$module {Abs}
                         0x00000001         Data  Gb  command line/config [2]
-__low_level_init        0x00000507    0x4  Code  Gb  low_level_init.o [3]
+__iar_ttio_handles      0x20000130    0x8  Data  Lc  XShttio.o [3]
+__iar_unaligned_memcpy  0x00001249         Code  Gb  ABImemcpy_unaligned.o [5]
+__iar_unaligned_memcpy4
+                        0x00001269         Code  Gb  ABImemcpy_unaligned.o [5]
+__iar_unaligned_memcpy8
+                        0x00001269         Code  Gb  ABImemcpy_unaligned.o [5]
+__iar_zero_init3        0x0000264b   0x40  Code  Gb  zero_init3.o [5]
+__low_level_init        0x0000274f    0x4  Code  Gb  low_level_init.o [3]
+__lseek                 0x000021d1   0x4c  Code  Gb  lseek.o [6]
 __vector_table          0x00000000         Data  Gb  vector_table_M.o [5]
-_call_main              0x000004f9         Code  Gb  cmain.o [5]
-_exit                   0x00000511         Code  Gb  cexit.o [5]
-_main                   0x00000503         Code  Gb  cmain.o [5]
-exit                    0x0000050b    0x4  Code  Gb  exit.o [3]
-main                    0x0000042d   0x1c  Code  Gb  main.o [1]
-recieveSend             0x00000449   0x3a  Code  Gb  main.o [1]
+__write                 0x0000221d   0x10  Code  Gb  write.o [6]
+_call_main              0x00002741         Code  Gb  cmain.o [5]
+_exit                   0x00002759         Code  Gb  cexit.o [5]
+_main                   0x0000274b         Code  Gb  cmain.o [5]
+abort                   0x000018a5    0x6  Code  Gb  abort.o [3]
+ebuf                    0x200001b8   0x50  Data  Lc  xfiles.o [3]
+exit                    0x00002753    0x4  Code  Gb  exit.o [3]
+fclose                  0x00002431   0x7e  Code  Gb  fclose.o [3]
+fflush                  0x0000218d   0x34  Code  Gb  fflush.o [3]
+fflushOne               0x00002119   0x74  Code  Lc  fflush.o [3]
+fputc                   0x000025f5   0x56  Code  Gb  fputc.o [3]
+free                    0x0000252d    0x4  Code  Gb  heaptramp0.o [3]
+fseek                   0x0000240d   0x24  Code  Gb  fseek.o [3]
+ldexp                   0x00001391         Code  Gb  ldexp.o [4]
+ldexpl                  0x00001391         Code  Gb  ldexp.o [4]
+localeconv              0x0000189d    0x4  Code  Gb  xlocale_c.o [3]
+main                    0x00002561   0x1c  Code  Gb  main.o [1]
+memchr                  0x00000f5d         Code  Gb  memchr.o [5]
+obuf                    0x20000208   0x50  Data  Lc  xfiles.o [3]
+printf                  0x000025cd   0x28  Code  Gb  printf.o [3]
+putchar                 0x0000277d    0xc  Code  Gb  putchar.o [3]
+recieveSend             0x0000257d   0x44  Code  Gb  main.o [1]
+remove                  0x0000254b   0x16  Code  Gb  remove.o [6]
+sFileInfo               0x20000138   0x80  Data  Lc  XShHandles.o [3]
+scalbln                 0x00001391         Code  Gb  ldexp.o [4]
+scalblnl                0x00001391         Code  Gb  ldexp.o [4]
+scalbn                  0x00001391         Code  Gb  ldexp.o [4]
+scalbnl                 0x00001391         Code  Gb  ldexp.o [4]
+scale                   0x000006e1   0x46  Code  Lc  xprintffull_nomb.o [3]
+sec_hand                0x20000260    0x4  Data  Lc  xfail_s.o [3]
+strchr                  0x00000ec9         Code  Gb  strchr.o [5]
+strlen                  0x00000f25         Code  Gb  strlen.o [5]
 
 
-[1] = C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Obj
+[1] = C:\first_project_474\Lab3\Task2b\Debug\Obj
 [2] = command line
 [3] = dl7M_tlf.a
 [4] = m7M_tls.a
 [5] = rt7M_tl.a
 [6] = shb_l.a
 
-   1 340 bytes of readonly  code memory
-  32 768 bytes of readwrite data memory
+  10 098 bytes of readonly  code memory
+     143 bytes of readonly  data memory
+  98 920 bytes of readwrite data memory
 
 Errors: none
 Warnings: none

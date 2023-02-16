@@ -139,7 +139,7 @@ void TimerADCTriger_Init(void) {
 
 void UART_Init(void) {
   volatile unsigned short delay = 0;
-  RCGCUART = 0x1; // enable clock for UART module 0
+  RCGCUART = 0xFF; // enable clock for UART module 0 and 2
   delay++; // delay 3 cycles
   delay++;
   delay++;
@@ -148,16 +148,23 @@ void UART_Init(void) {
   delay++; // delay
   delay++;
   
-  GPIOAFSEL_A = 0x3; // set A0 A1 for alternative hardware function
+  // for PA 0, PA 1
+  GPIOAFSEL_A |= 0x3; // set A0 A1 for alternative hardware function
   GPIOPCTL_A |= 0x11; // programming pmcn field to assign UART signal to GPIO A0, A1
   GPIODEN_A |= 0x3; // digital for port A's 0 and 1 **added this**
   
+  // for PA 6, PA 7
+  GPIOAFSEL_A |= 0xC0; // set A6 A7 for alternative hardware function  1100 0011
+  GPIOPCTL_A |= 0x11000000; // programming pmcn field to assign UART signal to GPIO A6, A7
+  GPIODEN_A |= 0xC0; // digital for port A's 0 and 1 
+  
+  
   UART0CTL |= 0x0; // disable for setting registers
-  UART0IBRD = 0x68; // integer baud-rate divisor (104)
-  UART0FBRD = 0xB; // fractional baud-rate divisor (11)
+  UART0IBRD |= 0x68; // integer baud-rate divisor (104)
+  UART0FBRD |= 0xB; // fractional baud-rate divisor (11)
   UART0LCRH |= 0x70; // set word length to 8 bit and FIFO
   UART0CC = 0x5; // set clock to ALTCLKCFG
-  UART0CTL |= 0x300; // enable UART transmit and recieve ????????????????????
+  UART0CTL |= 0x300; // enable UART transmit and recieve ?
   UART0CTL |= 0x1; // enable UART
   
   //UART0IM = 0x3FFFF; // enable interrupts
