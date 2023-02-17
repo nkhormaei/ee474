@@ -2,10 +2,11 @@
 #define _ADC_HEADER_H_
 
 #include <stdint.h>
-// ******************** GPIO LED REGISTERS ********************** //
+
+// ******************** GPIO Port REGISTER ********************** //
 #define RCGCGPIO     (*((volatile uint32_t *)0x400FE608)) 
 
-// setting up the leds
+// ******************** GPIO LED REGISTERS ********************** //
 #define GPIODIR_F    (*((volatile uint32_t *)0x4005D400)) 
 #define GPIODEN_F    (*((volatile uint32_t *)0x4005D51C)) 
 #define GPIODATA_F   (*((volatile uint32_t *)0x4005D3FC)) 
@@ -34,11 +35,13 @@
 #define ADCSSFIFO3   (*((volatile uint32_t *) 0x400380A8))
 #define ADCIM        (*((volatile uint32_t *) 0x40038008))
 
+
+// ******************** Interrupt REGISTERS ********************** //
 #define NVIC_EN0   (*((volatile uint32_t *) 0xE000E100))
 #define NVIC_EN1   (*((volatile uint32_t *) 0xE000E104))
 #define NVIC_EN2   (*((volatile uint32_t *) 0xE000E108))
 
-// timer registers
+// ******************** Timer REGISTERS ********************** //
 #define RCGCTIMER    (*((volatile uint32_t *)0x400FE604))
 #define GPTMCFG_0      (*((volatile uint32_t *)0x40030000))
 #define GPTMTAMR_0     (*((volatile uint32_t *)0x40030004))
@@ -47,7 +50,7 @@
 #define GPTMRIS_0      (*((volatile uint32_t *)0x4003001C))
 #define GPTMICR_0     (*((volatile uint32_t *)0x40030024))
 
-// switches
+// ******************** Button REGISTERS ********************** //
 #define GPIODIR_J    (*((volatile uint32_t *)0x40060400))
 #define GPIODEN_J    (*((volatile uint32_t *)0x4006051C))
 #define GPIOPUR_J    (*((volatile uint32_t *)0x40060510))

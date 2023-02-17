@@ -59,9 +59,8 @@ int PLL_Init(enum frequency freq) {
 void LED_Init(void) {
   // STEP 1: Initialize the 4 on board LEDs by initializing the corresponding
   // GPIO pins.
-  
-  volatile unsigned short delay = 0; // always need this for rcg registers
-  RCGCGPIO |= 0xFFFF;
+  volatile unsigned short delay = 0;
+  RCGCGPIO |= 0x20;
   delay++;
   delay++;
   GPIODIR_F = 0x11;
@@ -83,17 +82,13 @@ void ADCReadPot_Init(void) {
   PLLFREQ0 |= 0x00800000; // we did this for you
   // 2.4: Wait for the PLL to lock
   while (PLLSTAT != 0x1); // we did this for you
-  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG ????
+  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
   ADCCC |= 0x1;
-  
- 
-  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1) ????
+  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
   RCGCGPIO |= 0x10;
-  
   // 2.7: Delay for RCGCGPIO
   delay++;
   delay++;
-  
   // 2.8: Set the GPIOAFSEL bits for the ADC input pins
   GPIOAFSEL_E |= 0x8;
   
@@ -106,21 +101,17 @@ void ADCReadPot_Init(void) {
   // 2.11: Disable sample sequencer 3 (SS3)
   ADCACTSS &= (~0x8);
   
-  // 2.12: Select timer as the trigger for SS3 ????
-  ADCEMUX |= 0x5000; // changed this
-  
-  // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-  //ADCSSEMUX3 &= ~0x1; // uses pins 0-15
-  //ADCSSMUX3 &= ~0xF;
+  // 2.12: Select timer as the trigger for SS3
+  ADCEMUX |= 0x5000;
   
   // 2.14: Configure ADCSSCTL3 register
   ADCSSCTL3 = 0xE; //1110 for temp sensor
   
-  // 2.15: Set the SS3 interrupt mask ??????
-  ADCIM |= 0x8; // added this
+  // 2.15: Set the SS3 interrupt mask
+  ADCIM |= 0x8;
   
-  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC ??????
-  NVIC_EN0 |= (1 << 17); // added this
+  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
+  NVIC_EN0 |= (1 << 17);
   
   // 2.17: Enable ADC0 SS3
   ADCACTSS |= 0x8;
@@ -147,12 +138,21 @@ void TimerADCTriger_Init(void) {
   GPTMTAILR_0 = 60000000;// Load the value 60,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
   GPTMIMR_0 = 0x1; // Configure GPTMIMR register for interrupts
   
-  // from this lab
   GPTMADCEV |= 0x1;
   GPTMCTL_0 |= 0x20;
     
   GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
   
+}
+
+void Buttons_Init(void) {
+  volatile unsigned short delay = 0; 
+  RCGCGPIO |= 0x200;
+  delay++;
+  delay++;
+  GPIODIR_J = 0x00;
+  GPIODEN_J = 0x3;
+  GPIOPUR_J = 0x3;
 }
 
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler

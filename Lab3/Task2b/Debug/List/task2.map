@@ -1,18 +1,20 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.11.3.13950/W32 for ARM                16/Feb/2023  16:39:05
+# IAR ELF Linker V8.11.3.13950/W32 for ARM                16/Feb/2023  22:19:01
 # Copyright 2007-2017 IAR Systems AB.
 #
-#    Output file  =  C:\first_project_474\Lab3\Task2b\Debug\Exe\task2.out
-#    Map file     =  C:\first_project_474\Lab3\Task2b\Debug\List\task2.map
+#    Output file  =  
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Exe\task2.out
+#    Map file     =  
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\List\task2.map
 #    Command line =  
-#        -f C:\Users\khormnic\AppData\Local\Temp\EW49DF.tmp
-#        (C:\first_project_474\Lab3\Task2b\Debug\Obj\Lab3_Inits.o
-#        C:\first_project_474\Lab3\Task2b\Debug\Obj\main.o -o
-#        C:\first_project_474\Lab3\Task2b\Debug\Exe\task2.out --redirect
-#        _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb --map
-#        C:\first_project_474\Lab3\Task2b\Debug\List\task2.map --config
-#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        -f C:\Users\fishtail\AppData\Local\Temp\EWBB92.tmp
+#        (C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Obj\Lab3_Inits.o
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Obj\main.o -o
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Exe\task2.out
+#        --redirect _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb
+#        --map C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\List\task2.map
+#        --config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.0\arm\config\linker\TexasInstruments\TM4C1294NC.icf" --semihosting
 #        --entry __iar_program_start --vfe --text_out locale)
 #
@@ -79,7 +81,7 @@ define block HEAP with size = 64K, alignment = 8 { };
 
     Module            ro code  rw data
     ------            -------  -------
-C:\first_project_474\Lab3\Task2b\Debug\Obj: [1]
+C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Obj: [1]
     Lab3_Inits.o        1 044
     main.o                 64
     ----------------------------------
@@ -150,7 +152,7 @@ main                    0x00000455   0x1c  Code  Gb  main.o [1]
 recieveSend             0x00000471   0x1c  Code  Gb  main.o [1]
 
 
-[1] = C:\first_project_474\Lab3\Task2b\Debug\Obj
+[1] = C:\Users\fishtail\Desktop\ee474\Lab3\Task2b\Debug\Obj
 [2] = command line
 [3] = dl7M_tlf.a
 [4] = m7M_tls.a

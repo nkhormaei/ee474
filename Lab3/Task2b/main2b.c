@@ -1,6 +1,13 @@
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 2/16/23
+ * This file provides the implementation for receives a single character
+ via UART and immediately transmits back the character that it receives 
+ */ 
 #include <stdint.h> 
 #include <stdio.h>
-#include "header.h" 
+#include "header2b.h" 
 #include "Lab3_Inits.h"
 
 int main()

@@ -1,6 +1,16 @@
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 2/16/23
+ * This header file provides all the registers that need to be initialized/used
+for using ADC, PLL, and UART functionality, as well as the method declaration
+for the UART functionality
+ */ 
+
 #ifndef __HEADER1_H__ 
 #define __HEADER1_H__ 
 
+// ******************** GPIO Port REGISTER ********************** //
 #define RCGCGPIO     (*((volatile uint32_t *)0x400FE608)) 
 
 // ******************** ADC REGISTERS ********************** //
@@ -27,7 +37,7 @@
 #define NVIC_EN1   (*((volatile uint32_t *) 0xE000E104))
 #define NVIC_EN2   (*((volatile uint32_t *) 0xE000E108))
 
-// timer registers
+// ******************** Timer REGISTERS ********************** //
 #define RCGCTIMER    (*((volatile uint32_t *)0x400FE604))
 #define GPTMCFG_0      (*((volatile uint32_t *)0x40030000))
 #define GPTMTAMR_0     (*((volatile uint32_t *)0x40030004))
@@ -71,7 +81,7 @@
 #define GPIODEN_A    (*(volatile uint32_t *) 0x4005851C)
 #define GPIODR2R_A   (*(volatile uint32_t *) 0x400580FF)
 
-// recieve a character from UART and send it back
+// recieve a character from UART and sends it back
 void recieveSend(void);
 
 #endif //__HEADER1_H__ 

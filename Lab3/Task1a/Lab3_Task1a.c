@@ -51,5 +51,4 @@ void ADC0SS3_Handler(void) {
   ADCISC |= 0x8; // module 0, but we want SS3
   // 4.2: Save the ADC value to global variable ADC_value
   ADC_value = ADCSSFIFO3;
-  
 }

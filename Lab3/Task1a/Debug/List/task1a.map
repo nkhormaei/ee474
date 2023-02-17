@@ -1,18 +1,20 @@
 ###############################################################################
 #
-# IAR ELF Linker V8.11.3.13950/W32 for ARM                09/Feb/2023  14:20:56
+# IAR ELF Linker V8.11.3.13950/W32 for ARM                16/Feb/2023  21:52:33
 # Copyright 2007-2017 IAR Systems AB.
 #
-#    Output file  =  C:\first_project_474\Lab3\Task1a\Debug\Exe\task1a.out
-#    Map file     =  C:\first_project_474\Lab3\Task1a\Debug\List\task1a.map
+#    Output file  =  
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Exe\task1a.out
+#    Map file     =  
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\List\task1a.map
 #    Command line =  
-#        -f C:\Users\khormnic\AppData\Local\Temp\EWFB5D.tmp
-#        (C:\first_project_474\Lab3\Task1a\Debug\Obj\cstartup_M.o
-#        C:\first_project_474\Lab3\Task1a\Debug\Obj\Lab3_Inits.o
-#        C:\first_project_474\Lab3\Task1a\Debug\Obj\Lab3_Task1a.o -o
-#        C:\first_project_474\Lab3\Task1a\Debug\Exe\task1a.out --map
-#        C:\first_project_474\Lab3\Task1a\Debug\List\task1a.map --config
-#        "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        -f C:\Users\fishtail\AppData\Local\Temp\EW8304.tmp
+#        (C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj\cstartup_M.o
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj\Lab3_Inits.o
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj\Lab3_Task1a.o -o
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Exe\task1a.out --map
+#        C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\List\task1a.map
+#        --config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
 #        8.0\arm\config\linker\TexasInstruments\TM4C1294NC.icf" --semihosting
 #        --entry __iar_program_start --vfe --text_out locale)
 #
@@ -166,7 +168,7 @@ Copy/packbits (__iar_packbits_init_single3)
 
     Module                  ro code  ro data  rw data
     ------                  -------  -------  -------
-C:\first_project_474\Lab3\Task1a\Debug\Obj: [1]
+C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj: [1]
     Lab3_Inits.o                936
     Lab3_Task1a.o               216                 4
     cstartup_M.o                 34      520
@@ -335,7 +337,7 @@ sFileInfo               0x20000100   0x80  Data  Lc  XShHandles.o [3]
 strlen                  0x00000c4d         Code  Gb  strlen.o [5]
 
 
-[1] = C:\first_project_474\Lab3\Task1a\Debug\Obj
+[1] = C:\Users\fishtail\Desktop\ee474\Lab3\Task1a\Debug\Obj
 [2] = command line
 [3] = dl7M_tlf.a
 [4] = m7M_tls.a

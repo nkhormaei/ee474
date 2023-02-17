@@ -1,7 +1,6 @@
 #ifndef _ADC_HEADER_H_
 #define _ADC_HEADER_H_
 
-#include <stdint.h>
 // ******************** GPIO LED REGISTERS ********************** //
 #define RCGCGPIO     (*((volatile uint32_t *)0x400FE608)) 
 
@@ -38,7 +37,7 @@
 #define NVIC_EN1   (*((volatile uint32_t *) 0xE000E104))
 #define NVIC_EN2   (*((volatile uint32_t *) 0xE000E108))
 
-// timer registers
+// ******************** Timer REGISTERS ********************** //
 #define RCGCTIMER    (*((volatile uint32_t *)0x400FE604))
 #define GPTMCFG_0      (*((volatile uint32_t *)0x40030000))
 #define GPTMTAMR_0     (*((volatile uint32_t *)0x40030004))
@@ -46,9 +45,5 @@
 #define GPTMIMR_0      (*((volatile uint32_t *)0x40030018))
 #define GPTMRIS_0      (*((volatile uint32_t *)0x4003001C))
 #define GPTMICR_0     (*((volatile uint32_t *)0x40030024))
-
-
-
-
 
 #endif  // _ADC_HEADER_H_

@@ -32,4 +32,7 @@ void TimerADCTriger_Init(void);
 // Initiailize UART registers
 void UART_Init(void);
 
+// Initiailize Button registers
+void Button_Init(void);
+
 #endif  // _Lab3_Inits_H_

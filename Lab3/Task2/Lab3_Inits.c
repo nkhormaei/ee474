@@ -65,11 +65,10 @@ void ADCReadPot_Init(void) {
   PLLFREQ0 |= 0x00800000; // we did this for you
   // 2.4: Wait for the PLL to lock
   while (PLLSTAT != 0x1); // we did this for you
-  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG ????
+  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
   ADCCC |= 0x1;
-  
  
-  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1) ????
+  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
   RCGCGPIO |= 0x10;
   
   // 2.7: Delay for RCGCGPIO
@@ -88,21 +87,17 @@ void ADCReadPot_Init(void) {
   // 2.11: Disable sample sequencer 3 (SS3)
   ADCACTSS &= (~0x8);
   
-  // 2.12: Select timer as the trigger for SS3 ????
-  ADCEMUX |= 0x5000; // changed this
-  
-  // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-  //ADCSSEMUX3 &= ~0x1; // uses pins 0-15
-  //ADCSSMUX3 &= ~0xF;
+  // 2.12: Select timer as the trigger for SS3
+  ADCEMUX |= 0x5000;
   
   // 2.14: Configure ADCSSCTL3 register
   ADCSSCTL3 = 0xE; //1110 for temp sensor
   
   // 2.15: Set the SS3 interrupt mask
-  ADCIM |= 0x8; // added this
+  ADCIM |= 0x8;
   
   // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
-  NVIC_EN0 |= (1 << 17); // added this
+  NVIC_EN0 |= (1 << 17);
   
   // 2.17: Enable ADC0 SS3
   ADCACTSS |= 0x8;
@@ -128,8 +123,7 @@ void TimerADCTriger_Init(void) {
   
   GPTMTAILR_0 = 60000000;// Load the value 60,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
   GPTMIMR_0 = 0x1; // Configure GPTMIMR register for interrupts
-  
-  // from this lab
+ 
   GPTMADCEV |= 0x1;
   GPTMCTL_0 |= 0x20;
     
@@ -144,25 +138,30 @@ void UART_Init(void) {
   delay++;
   delay++;
   
-  RCGCGPIO |= 0x101; // enable port A and J (100000001)
+  RCGCGPIO |= 0x1; // enable port A
   delay++; // delay
   delay++;
   
   GPIOAFSEL_A = 0x3; // set A0 A1 for alternative hardware function
   GPIOPCTL_A |= 0x11; // programming pmcn field to assign UART signal to GPIO A0, A1
-  GPIODEN_A |= 0x3; // digital for port A's 0 and 1 **added this**
+  GPIODEN_A |= 0x3; // digital for port A's 0 and 1
   
   UART0CTL |= 0x0; // disable for setting registers
   UART0IBRD = 0x68; // integer baud-rate divisor (104)
   UART0FBRD = 0xB; // fractional baud-rate divisor (11)
   UART0LCRH |= 0x70; // set word length to 8 bit and FIFO
   UART0CC = 0x5; // set clock to ALTCLKCFG
-  UART0CTL |= 0x300; // enable UART transmit and recieve ????????????????????
+  UART0CTL |= 0x300; // enable UART transmit and recieve
   UART0CTL |= 0x1; // enable UART
-  
-  //UART0IM = 0x3FFFF; // enable interrupts
-  //NVIC_EN0 |= (1 << 17); // enable interrupts 
-  
 }
 
+void Button_Init(void) {
+  volatile unsigned short delay = 0;
+  RCGCGPIO |= 0x200; // enable port J
+  delay++; // delay
+  delay++;
+  GPIODIR_J = 0x00;
+  GPIODEN_J = 0x3;
+  GPIOPUR_J = 0x3;
+}
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler

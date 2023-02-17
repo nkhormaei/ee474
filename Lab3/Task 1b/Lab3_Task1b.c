@@ -25,30 +25,19 @@ int main(void) {
   LED_Init();            // Initialize the 4 onboard LEDs (GPIO)
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
   TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
+  Buttons_Init();        // Initialize buttons
   
-  GPIODIR_J = 0x00;
-  GPIODEN_J = 0x3;
-  GPIOPUR_J = 0x3;
-  
-  float temp; // changed this to temp
+  float temp;
   
   while(1) {  
     PLL_Init(freq);        // Set system clock frequency depending on switch 
     temp = (147.5 - ((75)* (3.3) * (ADC_value)) / 4096.0);
     printf("%.2f\n\n", temp); // printing out temperature value
-    
-    if (GPIODATA_J & 0x1) {
-      freq = PRESET1;
-      GPTMCTL_0 &= ~(0x1);
-      GPTMTAILR_0 = 12000000;
-      GPTMCTL_0 |= 0x1;
-    } else if (GPIODATA_J & 0x2) {
-      freq = PRESET3;
-      GPTMCTL_0 &= ~(0x1);
-      GPTMTAILR_0 = 120000000;
-      GPTMCTL_0 |= 0x1;
+    if (GPIODATA_J & 0x1) { // if sw1 pressed 
+      freq = PRESET1; // increase frequency
+    } else if (GPIODATA_J & 0x2) { // if sw2 pressed
+      freq = PRESET3; // decrease frequency
     }
-    
   }
   return 0;
 }
@@ -59,15 +48,5 @@ void ADC0SS3_Handler(void) {
   ADCISC |= 0x8; // module 0, but we want SS3
   // 4.2: Save the ADC value to global variable ADC_value
   ADC_value = ADCSSFIFO3 & 0xFFF;
-  
   GPTMICR_0 |= 0x1;
 }
-
-/*void PortJ_Handler(void) {
-  GPIOICR_J |= 0x3;
-  if (GPIODATA_J == 0x1) { 
-    PLL_Init(PRESET3); // 12 MHz
-  } else {
-    PLL_Init(PRESET1); 
-  }
-}*/

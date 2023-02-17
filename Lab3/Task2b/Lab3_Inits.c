@@ -65,11 +65,10 @@ void ADCReadPot_Init(void) {
   PLLFREQ0 |= 0x00800000; // we did this for you
   // 2.4: Wait for the PLL to lock
   while (PLLSTAT != 0x1); // we did this for you
-  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG ????
+  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
   ADCCC |= 0x1;
-  
  
-  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1) ????
+  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
   RCGCGPIO |= 0x10;
   
   // 2.7: Delay for RCGCGPIO
@@ -83,26 +82,13 @@ void ADCReadPot_Init(void) {
   GPIODEN_E &= (~0x8);
   
   // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
-  GPIOAMSEL_E |= 0x8; // want analog isolation to be disabled
+  GPIOAMSEL_E |= 0x8;
   
   // 2.11: Disable sample sequencer 3 (SS3)
   ADCACTSS &= (~0x8);
   
-  // 2.12: Select timer as the trigger for SS3 ????
-  ADCEMUX |= 0x5000; // changed this
-  
-  // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
-  //ADCSSEMUX3 &= ~0x1; // uses pins 0-15
-  //ADCSSMUX3 &= ~0xF;
-  
-//  // 2.14: Configure ADCSSCTL3 register
-//  ADCSSCTL3 = 0xE; //1110 for temp sensor
-//  
-//  // 2.15: Set the SS3 interrupt mask
-//  ADCIM |= 0x8; // added this
-//  
-//  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
-//  NVIC_EN0 |= (1 << 17); // added this
+  // 2.12: Select timer as the trigger for SS3
+  ADCEMUX |= 0x5000;
   
   // 2.17: Enable ADC0 SS3
   ADCACTSS |= 0x8;

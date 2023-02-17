@@ -60,7 +60,7 @@ void LED_Init(void) {
   // STEP 1: Initialize the 4 on board LEDs by initializing the corresponding
   // GPIO pins.
   
-  volatile unsigned short delay = 0; // always need this for rcg registers
+  volatile unsigned short delay = 0;
   RCGCGPIO |= 0x1020;
   delay++;
   delay++;
@@ -83,11 +83,10 @@ void ADCReadPot_Init(void) {
   PLLFREQ0 |= 0x00800000; // we did this for you
   // 2.4: Wait for the PLL to lock
   while (PLLSTAT != 0x1); // we did this for you
-  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG ????
+  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
   ADCCC |= 0x1;
-  
  
-  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1) ????
+  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
   RCGCGPIO |= 0x10;
   
   // 2.7: Delay for RCGCGPIO
@@ -106,7 +105,7 @@ void ADCReadPot_Init(void) {
   // 2.11: Disable sample sequencer 3 (SS3)
   ADCACTSS &= (~0x8);
   
-  // 2.12: Select timer as the trigger for SS3 ????
+  // 2.12: Select timer as the trigger for SS3
   ADCEMUX |= 0x5000; // changed this
   
   // 2.13: Select the analog input channel for SS3 (Hint: Table 15-1)
@@ -116,11 +115,11 @@ void ADCReadPot_Init(void) {
   // 2.14: Configure ADCSSCTL3 register
   ADCSSCTL3 = 0x6; //0110
   
-  // 2.15: Set the SS3 interrupt mask ??????
-  ADCIM |= 0x8; // added this
+  // 2.15: Set the SS3 interrupt mask
+  ADCIM |= 0x8;
   
-  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC ??????
-  NVIC_EN0 |= (1 << 17); // added this
+  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
+  NVIC_EN0 |= (1 << 17);
   
   // 2.17: Enable ADC0 SS3
   ADCACTSS |= 0x8;
@@ -147,7 +146,6 @@ void TimerADCTriger_Init(void) {
   GPTMTAILR_0 = 60000000;// Load the value 60,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
   GPTMIMR_0 = 0x1; // Configure GPTMIMR register for interrupts
   
-  // from this lab
   GPTMADCEV |= 0x1;
   GPTMCTL_0 |= 0x20;
     

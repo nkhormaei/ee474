@@ -1,6 +1,15 @@
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 2/16/23
+ * This header file provides all the registers that need to be initialized/used
+for using ADC, PLL, and UART functionality, as well as the method declaration
+for the UART functionality
+ */ 
 #ifndef __HEADER1_H__ 
 #define __HEADER1_H__ 
 
+// ******************** GPIO Port REGISTER ********************** //
 #define RCGCGPIO     (*((volatile uint32_t *)0x400FE608)) 
 
 // ******************** ADC REGISTERS ********************** //
@@ -23,11 +32,12 @@
 #define ADCSSFIFO3   (*((volatile uint32_t *) 0x400380A8))
 #define ADCIM        (*((volatile uint32_t *) 0x40038008))
 
+// ******************** Interrupt REGISTERS ********************** //
 #define NVIC_EN0   (*((volatile uint32_t *) 0xE000E100))
 #define NVIC_EN1   (*((volatile uint32_t *) 0xE000E104))
 #define NVIC_EN2   (*((volatile uint32_t *) 0xE000E108))
 
-// timer registers
+// ******************** Timer REGISTERS ********************** //
 #define RCGCTIMER    (*((volatile uint32_t *)0x400FE604))
 #define GPTMCFG_0      (*((volatile uint32_t *)0x40030000))
 #define GPTMTAMR_0     (*((volatile uint32_t *)0x40030004))
@@ -57,16 +67,14 @@
 #define GPIOAFSEL_A  (*(volatile uint32_t *) 0x40058420)
 #define GPIOPCTL_A   (*(volatile uint32_t *) 0x4005852C)
 #define UART0CC      (*(volatile uint32_t *) 0x4000CFC8)
-
 #define GPIODEN_A    (*(volatile uint32_t *) 0x4005851C)
 
-// switches
+// ******************** Button REGISTERS ********************** //
 #define GPIODIR_J    (*((volatile uint32_t *)0x40060400))
 #define GPIODEN_J    (*((volatile uint32_t *)0x4006051C))
 #define GPIOPUR_J    (*((volatile uint32_t *)0x40060510))
 #define GPIODATA_J   (*((volatile uint32_t *)0x400603FC))
 #define GPIOICR_J    (*((volatile uint32_t *)0x4006041C))
-
 
 // send temp from UART to computer
 void sendTemp(float temp);
