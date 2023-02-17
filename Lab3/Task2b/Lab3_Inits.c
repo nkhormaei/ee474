@@ -139,37 +139,26 @@ void TimerADCTriger_Init(void) {
 
 void UART_Init(void) {
   volatile unsigned short delay = 0;
-  RCGCUART = 0xFF; // enable clock for UART module 0 and 2
+  RCGCUART = 0x4; // enable clock for UART module 0 and 2
   delay++; // delay 3 cycles
   delay++;
   delay++;
   
-  RCGCGPIO |= 0x101; // enable port A and J (100000001)
+  RCGCGPIO |= 0x1; // enable port A
   delay++; // delay
   delay++;
-  
-  // for PA 0, PA 1
-  GPIOAFSEL_A |= 0x3; // set A0 A1 for alternative hardware function
-  GPIOPCTL_A |= 0x11; // programming pmcn field to assign UART signal to GPIO A0, A1
-  GPIODEN_A |= 0x3; // digital for port A's 0 and 1 **added this**
-  
   // for PA 6, PA 7
   GPIOAFSEL_A |= 0xC0; // set A6 A7 for alternative hardware function  1100 0011
   GPIOPCTL_A |= 0x11000000; // programming pmcn field to assign UART signal to GPIO A6, A7
-  GPIODEN_A |= 0xC0; // digital for port A's 0 and 1 
+  GPIODEN_A |= 0xC0; // digital for port A's 6 and 7
+  GPIODR2R_A |= 0xC0;
   
-  
-  UART0CTL |= 0x0; // disable for setting registers
-  UART0IBRD |= 0x68; // integer baud-rate divisor (104)
-  UART0FBRD |= 0xB; // fractional baud-rate divisor (11)
-  UART0LCRH |= 0x70; // set word length to 8 bit and FIFO
-  UART0CC = 0x5; // set clock to ALTCLKCFG
-  UART0CTL |= 0x300; // enable UART transmit and recieve ?
-  UART0CTL |= 0x1; // enable UART
-  
-  //UART0IM = 0x3FFFF; // enable interrupts
-  //NVIC_EN0 |= (1 << 17); // enable interrupts 
-  
-}
-
-// NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler
+  UART2CTL = 0x0; // disable for setting registers
+  UART2IBRD |= 0x68; // integer baud-rate divisor (104)
+  UART2FBRD |= 0xB; // fractional baud-rate divisor (11)
+  UART2LCRH |= 0x60; // set word length to 8 bit and FIFO
+  UART2CC = 0x5; // set clock to ALTCLKCFG
+  UART2CTL |= 0x300; // enable UART transmit and recieve and RTS
+  UART2CTL |= 0x1; // enable UART
+} 
+//  NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler

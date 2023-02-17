@@ -47,6 +47,7 @@
 
 // ******************** UART CONTROL REGISTERS ********************** //
 #define RCGCUART     (*(volatile uint32_t *) 0x400FE618)
+
 #define UART0CTL     (*(volatile uint32_t *) 0x4000C030)
 #define UART0LCRH    (*(volatile uint32_t *) 0x4000C02C)
 #define UART0IM      (*(volatile uint32_t *) 0x4000C038)
@@ -54,18 +55,21 @@
 #define UART0FR      (*(volatile uint32_t *) 0x4000C018)
 #define UART0IBRD    (*(volatile uint32_t *) 0x4000C024)
 #define UART0FBRD    (*(volatile uint32_t *) 0x4000C028)
-#define GPIOAFSEL_A  (*(volatile uint32_t *) 0x40058420)
-#define GPIOPCTL_A   (*(volatile uint32_t *) 0x4005852C)
 #define UART0CC      (*(volatile uint32_t *) 0x4000CFC8)
 
-#define GPIODEN_A    (*(volatile uint32_t *) 0x4005851C)
+#define UART2CTL     (*(volatile uint32_t *) 0x4000E030)
+#define UART2LCRH    (*(volatile uint32_t *) 0x4000E02C)
+#define UART2IM      (*(volatile uint32_t *) 0x4000E038)
+#define UART2DR      (*(volatile uint32_t *) 0x4000E000)
+#define UART2FR      (*(volatile uint32_t *) 0x4000E018)
+#define UART2IBRD    (*(volatile uint32_t *) 0x4000E024)
+#define UART2FBRD    (*(volatile uint32_t *) 0x4000E028)
+#define UART2CC      (*(volatile uint32_t *) 0x4000EFC8)
 
-// switches
-#define GPIODIR_J    (*((volatile uint32_t *)0x40060400))
-#define GPIODEN_J    (*((volatile uint32_t *)0x4006051C))
-#define GPIOPUR_J    (*((volatile uint32_t *)0x40060510))
-#define GPIODATA_J   (*((volatile uint32_t *)0x400603FC))
-#define GPIOICR_J    (*((volatile uint32_t *)0x4006041C))
+#define GPIOAFSEL_A  (*(volatile uint32_t *) 0x40058420)
+#define GPIOPCTL_A   (*(volatile uint32_t *) 0x4005852C)
+#define GPIODEN_A    (*(volatile uint32_t *) 0x4005851C)
+#define GPIODR2R_A   (*(volatile uint32_t *) 0x400580FF)
 
 // recieve a character from UART and send it back
 void recieveSend(void);

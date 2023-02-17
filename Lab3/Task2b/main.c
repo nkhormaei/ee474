@@ -17,22 +17,9 @@ int main()
   return 0;
 }
 
-
-
 void recieveSend() {
-  while (!(UART0FR & 0x40)) {}; // wait til recieve FIFO full
-//  char temp[32] = UART0DR;
-  char value;
-  for (int i = 0; i < 32; i++) {
-    //UART0DR = temp[i]; // write back to UART0DR
-    while ((UART0FR & 0x8)) {}; // wait til bit has been written
-    value = (char)(UART0DR & 0xFF);
-    //while ((UART0FR & 0x8)) {}; // wait til bit has been written
-    printf("%c\n", value);
-    
-    // this is what I think we will send over back using bluetooth
-    UART0DR = value;
-    
-  
-  }
+  while ((UART2FR & (1 << 4)) != 0) {}; // checking Rx
+  char value = UART2DR;
+  UART2DR = value;
+  while (!(UART2FR & 0x80)) {}; // checking Tx 
 }
