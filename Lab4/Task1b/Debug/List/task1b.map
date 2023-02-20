@@ -1,0 +1,269 @@
+###############################################################################
+#
+# IAR ELF Linker V8.11.3.13950/W32 for ARM                19/Feb/2023  18:49:33
+# Copyright 2007-2017 IAR Systems AB.
+#
+#    Output file  =  
+#        C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Exe\task1b.out
+#    Map file     =  
+#        C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\List\task1b.map
+#    Command line =  
+#        -f C:\Users\fishtail\AppData\Local\Temp\EW21B6.tmp
+#        (C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Obj\cstartup_M.o
+#        C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Obj\Lab3_Inits.o
+#        C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Obj\main.o
+#        C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Obj\SSD2119_Display.o
+#        C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Obj\SSD2119_Touch.o
+#        -o C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Exe\task1b.out
+#        --redirect _Printf=_PrintfFullNoMb --redirect _Scanf=_ScanfFullNoMb
+#        --map
+#        C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\List\task1b.map
+#        --config "C:\Program Files (x86)\IAR Systems\Embedded Workbench
+#        8.0\arm\CONFIG\generic_cortex.icf" --semihosting --entry
+#        __iar_program_start --vfe --text_out locale)
+#
+###############################################################################
+
+*******************************************************************************
+*** MESSAGES
+***
+
+Error[Li005]: no definition for "gcvt" [referenced from C:\Users\fishtail\Deskt
+          op\ee474\Lab4\Task1b\Debug\Obj\SSD2119_Display.o]
+
+
+*******************************************************************************
+*** RUNTIME MODEL ATTRIBUTES
+***
+
+CppFlavor       = *
+__SystemLibrary = DLib
+__dlib_version  = 6
+
+
+*******************************************************************************
+*** HEAP SELECTION
+***
+
+The basic heap was selected because some modules are built with
+size limitations (and not runtime checking), and --advanced_heap
+was not specified.
+
+
+*******************************************************************************
+*** PLACEMENT SUMMARY
+***
+
+"A0":  place at 0x00000000 { ro section .intvec };
+"P1":  place in [from 0x00000000 to 0x0007ffff] { ro };
+define block CSTACK with size = 1K, alignment = 8 { };
+define block PROC_STACK with size = 0M, alignment = 8 { };
+define block HEAP with size = 2K, alignment = 8 { };
+"P3":  place in [from 0x00000000 to 0x00000000] |
+                [from 0x20000000 to 0x2000ffff] {
+          rw, block CSTACK, block PROC_STACK, block HEAP };
+
+  Section          Kind        Address    Size  Object
+  -------          ----        -------    ----  ------
+"A0":                                    0x208
+  .intvec          const    0x00000000   0x208  cstartup_M.o [1]
+                          - 0x00000208   0x208
+
+"P1":                                   0x1608
+  .text            ro code  0x00000208   0x4e4  SSD2119_Display.o [1]
+  .text            ro code  0x000006ec    0x48  FltToDbl.o [4]
+  .text            ro code  0x00000734   0x3dc  Lab3_Inits.o [1]
+  .text            ro code  0x00000b10   0x246  DblDiv.o [4]
+  .text            ro code  0x00000d56     0x2  cstartup_M.o [1]
+  .rodata          const    0x00000d58   0x1e0  SSD2119_Display.o [1]
+  .text            ro code  0x00000f38   0x1a2  DblMul.o [4]
+  .text            ro code  0x000010da     0x2  cstartup_M.o [1]
+  .text            ro code  0x000010dc   0x168  DblAdd.o [4]
+  .text            ro code  0x00001244   0x118  main.o [1]
+  .text            ro code  0x0000135c    0x1a  U32ToDbl.o [4]
+  .text            ro code  0x00001376     0x2  cstartup_M.o [1]
+  .text            ro code  0x00001378    0xe2  DblSub.o [4]
+  .text            ro code  0x0000145a     0x2  cstartup_M.o [1]
+  .text            ro code  0x0000145c    0x68  DblToFlt.o [4]
+  .text            ro code  0x000014c4    0xd8  FltMul.o [4]
+  .text            ro code  0x0000159c    0xe2  FltAdd.o [4]
+  .text            ro code  0x0000167e     0x2  cstartup_M.o [1]
+  .text            ro code  0x00001680    0x74  FltSub.o [4]
+  .text            ro code  0x000016f4    0x40  zero_init3.o [5]
+  .text            ro code  0x00001734    0x28  data_init.o [5]
+  .iar.init_table  const    0x0000175c    0x10  - Linker created -
+  .rodata          const    0x0000176c    0x20  main.o [1]
+  .rodata          const    0x0000178c    0x1c  main.o [1]
+  .text            ro code  0x000017a8    0x1a  cmain.o [5]
+  .text            ro code  0x000017c2     0x4  low_level_init.o [3]
+  .text            ro code  0x000017c6     0x4  exit.o [3]
+  .text            ro code  0x000017ca     0x2  cstartup_M.o [1]
+  .text            ro code  0x000017cc     0xa  cexit.o [5]
+  .text            ro code  0x000017d6     0x2  cstartup_M.o [1]
+  .text            ro code  0x000017d8    0x14  exit.o [6]
+  .text            ro code  0x000017ec    0x10  cstartup_M.o [1]
+  .rodata          const    0x000017fc     0x8  main.o [1]
+  .rodata          const    0x00001804     0x8  main.o [1]
+  .text            ro code  0x0000180c     0x2  cstartup_M.o [1]
+  .text            ro code  0x0000180e     0x2  cstartup_M.o [1]
+  .rodata          const    0x00001810     0x0  zero_init3.o [5]
+                          - 0x00001810  0x1608
+
+"P3", part 1 of 2:                         0xc
+  .bss             zero     0x20000000     0x4  main.o [1]
+  .bss             zero     0x20000004     0x2  SSD2119_Display.o [1]
+  .bss             zero     0x20000006     0x2  SSD2119_Display.o [1]
+  .bss             zero     0x20000008     0x2  SSD2119_Display.o [1]
+  .bss             zero     0x2000000a     0x1  main.o [1]
+                          - 0x2000000b     0xb
+
+"P3", part 2 of 2:                       0x400
+  CSTACK                    0x20000010   0x400  <Block>
+    CSTACK         uninit   0x20000010   0x400  <Block tail>
+                          - 0x20000410   0x400
+
+
+*******************************************************************************
+*** INIT TABLE
+***
+
+          Address     Size
+          -------     ----
+Zero (__iar_zero_init3)
+    1 destination range, total size 0xb:
+          0x20000000   0xb
+
+
+
+*******************************************************************************
+*** MODULE SUMMARY
+***
+
+    Module             ro code  ro data  rw data
+    ------             -------  -------  -------
+C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Obj: [1]
+    Lab3_Inits.o           988
+    SSD2119_Display.o    1 252      480        6
+    cstartup_M.o            34      520
+    main.o                 280       76        5
+    --------------------------------------------
+    Total:               2 554    1 076       11
+
+command line: [2]
+    --------------------------------------------
+    Total:
+
+dl7M_tln.a: [3]
+    exit.o                   4
+    low_level_init.o         4
+    --------------------------------------------
+    Total:                   8
+
+m7M_tl.a: [4]
+    DblAdd.o               360
+    DblDiv.o               582
+    DblMul.o               418
+    DblSub.o               226
+    DblToFlt.o             104
+    FltAdd.o               226
+    FltMul.o               216
+    FltSub.o               116
+    FltToDbl.o              72
+    U32ToDbl.o              26
+    --------------------------------------------
+    Total:               2 346
+
+rt7M_tl.a: [5]
+    cexit.o                 10
+    cmain.o                 26
+    data_init.o             40
+    zero_init3.o            64
+    --------------------------------------------
+    Total:                 140
+
+shb_l.a: [6]
+    exit.o                  20
+    --------------------------------------------
+    Total:                  20
+
+    Linker created                   16    1 024
+------------------------------------------------
+    Grand Total:         5 068    1 092    1 035
+
+
+*******************************************************************************
+*** ENTRY LIST
+***
+
+Entry                      Address   Size  Type      Object
+-----                      -------   ----  ----      ------
+.iar.init_table$$Base   0x0000175c          --   Gb  - Linker created -
+.iar.init_table$$Limit  0x0000176c          --   Gb  - Linker created -
+?main                   0x000017a9         Code  Gb  cmain.o [5]
+ADC0SS3_Handler         0x000012fd   0x26  Code  Gb  main.o [1]
+ADCReadPot_Init         0x000008dd   0xdc  Code  Gb  Lab3_Inits.o [1]
+ADC_value               0x20000000    0x4  Data  Gb  main.o [1]
+ASCII                   0x00000d58  0x1e0  Data  Lc  SSD2119_Display.o [1]
+Buttons_Init            0x00000a49   0x3e  Code  Gb  Lab3_Inits.o [1]
+CSTACK$$Base            0x20000010          --   Gb  - Linker created -
+CSTACK$$Limit           0x20000410          --   Gb  - Linker created -
+LCD_DrawPixel           0x000006a7   0x34  Code  Gb  SSD2119_Display.o [1]
+LCD_PrintChar           0x00000501   0xce  Code  Gb  SSD2119_Display.o [1]
+LCD_PrintFloat          0x00000689   0x1e  Code  Gb  SSD2119_Display.o [1]
+LCD_PrintInteger        0x000005f9   0x60  Code  Gb  SSD2119_Display.o [1]
+LCD_PrintString         0x000005cf   0x1c  Code  Gb  SSD2119_Display.o [1]
+LCD_SetCursor           0x000005eb    0xe  Code  Gb  SSD2119_Display.o [1]
+LCD_WriteCommand        0x00000209  0x15a  Code  Lc  SSD2119_Display.o [1]
+LCD_WriteData           0x00000363  0x19e  Code  Lc  SSD2119_Display.o [1]
+LED_Init                0x00000899   0x44  Code  Gb  Lab3_Inits.o [1]
+PLL_Init                0x00000735  0x164  Code  Gb  Lab3_Inits.o [1]
+Region$$Table$$Base     0x0000175c          --   Gb  - Linker created -
+Region$$Table$$Limit    0x0000176c          --   Gb  - Linker created -
+TimerADCTriger_Init     0x000009b9   0x90  Code  Gb  Lab3_Inits.o [1]
+__aeabi_d2f             0x0000145d         Code  Gb  DblToFlt.o [4]
+__aeabi_ddiv            0x00000b11         Code  Gb  DblDiv.o [4]
+__aeabi_dmul            0x00000f39         Code  Gb  DblMul.o [4]
+__aeabi_dsub            0x00001379         Code  Gb  DblSub.o [4]
+__aeabi_f2d             0x000006ed         Code  Gb  FltToDbl.o [4]
+__aeabi_fadd            0x0000159d         Code  Gb  FltAdd.o [4]
+__aeabi_fmul            0x000014c5         Code  Gb  FltMul.o [4]
+__aeabi_ui2d            0x0000135d         Code  Gb  U32ToDbl.o [4]
+__cmain                 0x000017a9         Code  Gb  cmain.o [5]
+__exit                  0x000017d9   0x14  Code  Gb  exit.o [6]
+__iar_dadd              0x00001389         Code  Gb  DblSub.o [4]
+__iar_data_init3        0x00001735   0x28  Code  Gb  data_init.o [5]
+__iar_dsub              0x000010dd         Code  Gb  DblAdd.o [4]
+__iar_dsubStart         0x000010ef         Code  Gb  DblAdd.o [4]
+__iar_fadd              0x00001681         Code  Gb  FltSub.o [4]
+__iar_fsub              0x000015a9         Code  Gb  FltAdd.o [4]
+__iar_fsubStart         0x000015b9         Code  Gb  FltAdd.o [4]
+__iar_program_start     0x000017ed   0x10  Code  Gb  cstartup_M.o [1]
+__iar_systems$$module {Abs}
+                        0x00000001         Data  Gb  command line/config [2]
+__iar_zero_init3        0x000016f5   0x40  Code  Gb  zero_init3.o [5]
+__low_level_init        0x000017c3    0x4  Code  Gb  low_level_init.o [3]
+__vector_table          0x00000000  0x208  Data  Gb  cstartup_M.o [1]
+_call_main              0x000017b5         Code  Gb  cmain.o [5]
+_exit                   0x000017cd         Code  Gb  cexit.o [5]
+_main                   0x000017bf         Code  Gb  cmain.o [5]
+cursorX                 0x20000004    0x2  Data  Gb  SSD2119_Display.o [1]
+cursorY                 0x20000006    0x2  Data  Gb  SSD2119_Display.o [1]
+exit                    0x000017c7    0x4  Code  Gb  exit.o [3]
+freq                    0x2000000a    0x1  Data  Gb  main.o [1]
+main                    0x00001245   0xb8  Code  Gb  main.o [1]
+textColor               0x20000008    0x2  Data  Gb  SSD2119_Display.o [1]
+
+
+[1] = C:\Users\fishtail\Desktop\ee474\Lab4\Task1b\Debug\Obj
+[2] = command line
+[3] = dl7M_tln.a
+[4] = m7M_tl.a
+[5] = rt7M_tl.a
+[6] = shb_l.a
+
+  5 068 bytes of readonly  code memory
+  1 092 bytes of readonly  data memory
+  1 035 bytes of readwrite data memory
+
+Errors: 1
+Warnings: none
