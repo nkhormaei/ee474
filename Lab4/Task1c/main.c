@@ -9,54 +9,50 @@
 uint32_t ADC_value;
 enum frequency freq;
 
+char freq_board[100];
+char temp_board[100];
+
 int main(void) {
   LCD_Init();
-  Touch_Init();
-  // Select system clock frequency preset
-  freq = PRESET1; // 60 MHz
-  
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
   TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
+  Touch_Init();
+  
+  // Select system clock frequency preset
+  freq = PRESET1; // 60 MHz
   
   float ctemp;
   float ftemp;
   
+  LCD_ColorFill(Color4[5]);
+  LCD_DrawFilledRect(100, 100, 50, 50, Color4[3]);
+  LCD_SetCursor(115, 115);
+  LCD_PrintString("SW1");
+  LCD_DrawFilledRect(200, 100, 50, 50, Color4[3]);
+  LCD_SetCursor(215, 115);
+  LCD_PrintString("SW2");
+  
   while(1) {  
-    LCD_ColorFill(Color4[5]);
-    LCD_DrawFilledCircle(50, 100, 10, Color4[3]);
-    LCD_SetCursor(48, 100);
-    LCD_PrintString("SW1");
-    LCD_DrawFilledCircle(150, 100, 10, Color4[3]);
-    LCD_SetCursor(148, 100);
-    LCD_PrintString("SW2");
-    unsigned long x_crd = Touch_ReadX();
-    unsigned long y_crd = Touch_ReadY();
-    int xd1 = abs(50-x_crd);
-    int yd1 = abs(100-y_crd);
-    int rad1 = sqrt(xd1*xd1 + yd1*yd1);
-    int xd2 = abs(150-x_crd);
-    int yd2 = abs(100-y_crd);
-    int rad2 = sqrt(xd2*xd2 + yd2*yd2);
-    if (rad1 <= 10) { // if sw1 pressed 
+    
+    unsigned long x = Touch_ReadX();
+    unsigned long y = Touch_ReadY();
+      
+    if ((x <= 2200) && (x >= 1900) && (y <= 1800) && (y >= 1400)) { // if sw1 pressed 
       freq = PRESET1; // increase frequency
-    } else if (rad2 <= 10) { // if sw2 pressed
+    } else if ((x <= 2500) && (x >= 2300) && (y <= 1800) && (y >= 1400)) { // if sw2 pressed
       freq = PRESET3; // decrease frequency
     }
+    
     PLL_Init(freq);        // Set system clock frequency depending on switch 
     ctemp = (147.5 - ((75)* (3.3) * (ADC_value)) / 4096.0);
     ftemp = ctemp * (9/5) + 32;
-    LCD_SetCursor(15, 15);
-    LCD_PrintString("The current temperature is ");
-    LCD_PrintFloat(ctemp);
-    LCD_PrintString(" C, ");
-    LCD_PrintFloat(ftemp);
-    LCD_PrintString(" F.");
-    LCD_SetCursor(15, 30);
-    LCD_PrintString("The current clock frequency is ");
-    LCD_PrintInteger(freq);
-    LCD_PrintString(" MHz.");
-    sleep(3);
+    
+    LCD_SetCursor(0, 0);
+    sprintf(temp_board, "The current temperature is %.2lf C, %.2f F.\n", ctemp, ftemp);
+    sprintf(freq_board, "The current clock frequency is %d MHz.\n", freq);
+    LCD_Printf(temp_board);
+    LCD_Printf(freq_board);
   }
   return 0;
 }

@@ -9,6 +9,11 @@
 uint32_t ADC_value;
 enum frequency freq;
 
+char freq_board[100];
+char temp_board[100];
+
+
+
 int main(void) {
   LCD_Init();
   // Select system clock frequency preset
@@ -22,27 +27,25 @@ int main(void) {
   float ctemp;
   float ftemp;
   
+  LCD_ColorFill(Color4[0]);
+  
   while(1) {  
-    if (GPIODATA_J & 0x1) { // if sw1 pressed 
+    if ((GPIODATA_J & 0x1) == 0) { // if sw1 pressed 
       freq = PRESET1; // increase frequency
-    } else if (GPIODATA_J & 0x2) { // if sw2 pressed
+    } else if ((GPIODATA_J & 0x2) == 0) { // if sw2 pressed
       freq = PRESET3; // decrease frequency
     }
-    PLL_Init(freq);        // Set system clock frequency depending on switch 
+    PLL_Init(freq); // Set system clock frequency depending on switch 
+    
     ctemp = (147.5 - ((75)* (3.3) * (ADC_value)) / 4096.0);
     ftemp = ctemp * (9/5) + 32;
-    LCD_ColorFill(Color4[5]);
-    LCD_SetCursor(15,15);
-    LCD_PrintString("The current temperature is ");
-    LCD_PrintFloat(ctemp);
-    LCD_PrintString(" C, ");
-    LCD_PrintFloat(ftemp);
-    LCD_PrintString(" F.");
-    LCD_SetCursor(15,30);
-    LCD_PrintString("The current clock frequency is ");
-    LCD_PrintInteger(freq);
-    LCD_PrintString(" MHz.");
-    sleep(3);
+    
+    sprintf(temp_board, "The current temperature is %.2lf C, %.2f F.\n", ctemp, ftemp);
+    sprintf(freq_board, "The current clock frequency is %d MHz.\n", freq);
+  
+    LCD_Printf(temp_board);
+    LCD_Printf(freq_board);
+    LCD_SetCursor(0,0);
   }
   return 0;
 }

@@ -147,7 +147,7 @@ void TimerADCTriger_Init(void) {
 
 void Buttons_Init(void) {
   volatile unsigned short delay = 0; 
-  RCGCGPIO |= 0x200;
+  RCGCGPIO |= 0x100;
   delay++;
   delay++;
   GPIODIR_J = 0x00;

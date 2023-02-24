@@ -15577,6 +15577,18 @@
 #define SYSCTL_PWRTC_VDDA_UBOR0 0x00000010  // VDDA Under BOR0 Status
 #define SYSCTL_PWRTC_VDD_UBOR0  0x00000001  // VDD Under BOR0 Status
 
+                                
+// ******************** Button REGISTERS ********************** //
+#define GPIODIR_J    (*((volatile uint32_t *)0x40060400))
+#define GPIODEN_J    (*((volatile uint32_t *)0x4006051C))
+#define GPIOPUR_J    (*((volatile uint32_t *)0x40060510))
+#define GPIODATA_J   (*((volatile uint32_t *)0x400603FC))
+#define GPIOICR_J    (*((volatile uint32_t *)0x4006041C))
+                                  
+      // ******************** GPIO Port REGISTER ********************** //
+#define RCGCGPIO     (*((volatile uint32_t *)0x400FE608))                            
+     
+ 
 #endif
 
 #endif // __TM4C1294NCPDT_H__

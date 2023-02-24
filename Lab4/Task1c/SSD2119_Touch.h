@@ -8,8 +8,8 @@
 
 // uncomment the corresponding line below to choose the ADC 
 // module for the touchpad.
-#define TOUCH_USE_ADC0
-//#define TOUCH_USE_ADC1
+//#define TOUCH_USE_ADC0
+#define TOUCH_USE_ADC1
 
 // ************** Touch_Init *******************************
 // - Initializes the GPIO used for the touchpad

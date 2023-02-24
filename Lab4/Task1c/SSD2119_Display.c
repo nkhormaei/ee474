@@ -776,8 +776,8 @@ void LCD_PrintFloat(float num){
     //       print numbers in the format specified in the
     //       lab spec.
     char buf[10];
-    gcvt(num, 10, buf);
-    LCD_PrintString(buf);
+    sprintf(buf, "%f", num);
+    LCD_PrintString(buf); 
 }
 
 ///////////////////////////////////////////////////////////
