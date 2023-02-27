@@ -54,6 +54,12 @@ void Green_on(void);
 // turn off LED connected to PE4 
 void Green_off(void); 
 
+// returns true if sw1 is pressed
+bool sw1_pressed();
+
+// returns true if sw2 pressed
+bool sw2_pressed();
+
 // Returns true if system on/off button has been pressed for two seconds
 bool system_button_pressed();
 

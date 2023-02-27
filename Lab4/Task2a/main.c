@@ -32,6 +32,12 @@ int main(void)
   Touch_Init();
   TL_State = TL_init;
   while (1) {
+    unsigned long x = Touch_ReadX();
+    unsigned long y = Touch_ReadY();
+    LCD_SetCursor(0, 100);
+    LCD_PrintInteger(x);
+    LCD_SetCursor(0, 125);
+    LCD_PrintInteger(y);
     Traffic_Light_System();
   }
   return 0;
@@ -55,49 +61,67 @@ void timer_initc() {
 void LCD_init_traffic_light() {
   LCD_Init();
   LCD_ColorFill(Color4[5]);
-  LCD_DrawCircle(100, 75, 50, Color4[0]);
-  LCD_DrawCircle(100, 125, 50, Color4[0]);
-  LCD_DrawCircle(100, 175, 50, Color4[0]);
-  LCD_DrawFilledCircle(200, 100, 50, Color4[3]);
-  LCD_DrawFilledCircle(200, 200, 50, Color4[3]);
-  LCD_SetCursor(200, 100);
+  LCD_DrawCircle(100, 50, 35, Color4[0]);
+  LCD_DrawCircle(100, 125, 35, Color4[0]);
+  LCD_DrawCircle(100, 200, 35, Color4[0]);
+  LCD_DrawFilledRect(200, 25, 75, 75, Color4[3]);
+  LCD_DrawFilledRect(200, 125, 75, 75, Color4[3]);
+  LCD_SetCursor(225, 50);
   LCD_PrintString("SW1");
-  LCD_SetCursor(200, 200);
+  LCD_SetCursor(225, 150);
   LCD_PrintString("SW2");
 }
 void Red_on(void) 
 { 
-    LCD_DrawFilledCircle(100, 75, 50, Color4[4]);
+    LCD_DrawFilledCircle(100, 50, 35, Color4[4]);
 } 
 
 void Red_off(void) 
 { 
-    LCD_DrawFilledCircle(100, 75, 50, Color4[0]);
+    LCD_DrawFilledCircle(100, 50, 35, Color4[0]);
 } 
 
 void Yellow_on(void) 
 { 
-    LCD_DrawFilledCircle(100, 125, 50, Color4[14]);
+    LCD_DrawFilledCircle(100, 125, 35, Color4[14]);
 } 
 
 void Yellow_off(void) 
 { 
-    LCD_DrawFilledCircle(100, 125, 50, Color4[0]); 
+    LCD_DrawFilledCircle(100, 125, 35, Color4[0]); 
 } 
 
 void Green_on(void) 
 { 
-    LCD_DrawFilledCircle(100, 175, 50, Color4[2]);
+    LCD_DrawFilledCircle(100, 200, 35, Color4[2]);
 } 
 
 void Green_off(void) 
 { 
-    LCD_DrawFilledCircle(100, 175, 50, Color4[0]);
+    LCD_DrawFilledCircle(100, 200, 35, Color4[0]);
 } 
+
+bool sw1_pressed() {
+  unsigned long x = Touch_ReadX();
+  unsigned long y = Touch_ReadY();
+  if ((x < 2900) && (x > 2500) && (y > 2000) && (y < 2700)) {
+    return true;
+  }
+  return false;
+}
+
+bool sw2_pressed() {
+  unsigned long x = Touch_ReadX();
+  unsigned long y = Touch_ReadY();
+  if ((x < 2900) && (x > 2500) && (y > 1000) && (y < 1900)) {
+    return true;
+  }
+  return false;
+}
 
 bool system_button_pressed() {
   int count = 0;
-  while (GPIODATA_E & 0x1) {
+  while (sw1_pressed()) {
     if (GPTMRIS_0 & 0x1) {
         GPTMICR_0 |= 0x1;
         count +=1;
@@ -114,7 +138,7 @@ int five_seconds() {
   int sys = 0;
   int ped = 0;
   while (count < 5) {
-    while (GPIODATA_E & 0x1) {
+    while (sw1_pressed()) {
       if (GPTMRIS_0 & 0x1) {
         GPTMICR_0 |= 0x1;
         count +=1;
@@ -124,7 +148,7 @@ int five_seconds() {
         return 1;
       }
     }
-    while (GPIODATA_E & 0x2) {
+    while (sw2_pressed()) {
       if (GPTMRIS_0 & 0x1) {
         GPTMICR_0 |= 0x1;
         count +=1;
