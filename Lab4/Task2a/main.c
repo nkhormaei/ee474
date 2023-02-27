@@ -21,13 +21,16 @@ and remain there for 5 seconds before moving to the stop state.
 #include "SSD2119_Display.h" 
 #include "SSD2119_Touch.h"
 #include "tm4c1294ncpdt.h"
+#include "Lab3_Inits.h"
 
 // initializing states for traffic light 
 enum TL_States { TL_init, TL_stop, TL_warn, TL_go } TL_State;
+enum frequency freq;
 
 int main(void)
 {
-  timer_initc();
+  freq = PRESET1; // 60 MHz
+  PLL_Init(freq);
   LCD_init_traffic_light();
   Touch_Init();
   TL_State = TL_init;
@@ -71,6 +74,7 @@ void LCD_init_traffic_light() {
   LCD_SetCursor(225, 150);
   LCD_PrintString("SW2");
 }
+
 void Red_on(void) 
 { 
     LCD_DrawFilledCircle(100, 50, 35, Color4[4]);

@@ -7,20 +7,21 @@
 #include "tm4c1294ncpdt.h"
 
 uint32_t ADC_value;
-enum frequency freq;
+
 
 char freq_board[100];
 char temp_board[100];
 
 int main(void) {
+  // Select system clock frequency preset
+  freq = PRESET1; // 60 MHz
   LCD_Init();
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
   TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
   Touch_Init();
   
-  // Select system clock frequency preset
-  freq = PRESET1; // 60 MHz
+  
   
   float ctemp;
   float ftemp;
