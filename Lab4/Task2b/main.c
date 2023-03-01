@@ -18,6 +18,7 @@
 #include "task.h"
 // Include the LCD driver's header file, the PLL driver's header file,
 // and your own header file here.
+#include "header.h"
 #include "Lab3_Inits.h"
 #include "SSD2119_Display.h" 
 #include "SSD2119_Touch.h"
@@ -39,26 +40,6 @@ enum TL_States { TL_init, TL_stop, TL_warn, TL_go } TL_State;
 // However, you are allowed to add more helper functions
 // as needed.
 
-// turn on LED connected to PE2 
-void Red_on(void);
- 
-// turn off LED connected to PE2 
-void Red_off(void);
-
-// turn on LED connected to PE3
-void Yellow_on(void); 
- 
-// turn off LED connected to PE3 
-void Yellow_off(void); 
-
-// turn on LED connected to PE4
-void Green_on(void);
-
-// turn off LED connected to PE4 
-void Green_off(void); 
-
-// initialize LCD with traffic light setup
-void LCD_init_traffic_light(void);
 // Task function that checks the state of the virtual pedestrian button.
 // Keeps track of how many seconds the pedestrian button has been pressed.
 // Once the user has pressed the virtual pedestrian button for 2 seconds,
@@ -106,8 +87,7 @@ int main(void) {
   // functionalities of your SSD2119 touch display assembly. You may
   // also want to initialize (draw) your virtual buttons here.
   // Moreover, initialize the PLL to set the system clock to 60 MHz.
-  freq = PRESET1; // 60 MHz
-  
+  freq = PRESET2; // 60 MHz
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   LCD_init_traffic_light(); // initialize LCD for traffic system
   Touch_Init(); // intialize touch screen
@@ -136,9 +116,9 @@ int main(void) {
   //             Task Function Parameter,
   //             Priority,
   //             Task Handle);
-  xTaskCreate(StartStop, (const char *)"StartStopButton", 1024, NULL, 1, NULL);
-  xTaskCreate(Pedestrian, (const char *)"PedestrianButton", 1024, NULL, 1, NULL);
-  xTaskCreate(Control, (const char *)"Control FSM", 1024, NULL, 3, NULL);
+  xTaskCreate(StartStop, (const char *)"StartStopButton", 1024, NULL, 3, NULL);
+  xTaskCreate(Pedestrian, (const char *)"PedestrianButton", 1024, NULL, 2, NULL);
+  xTaskCreate(Control, (const char *)"Control FSM", 1024, NULL, 1, NULL);
 
   // Start the scheduler. This should not return.
   // The scheduler will do the scheduling and switch between
@@ -213,14 +193,14 @@ void StartStop(void *p) {
     if ((x < 2900) && (x > 2500) && (y > 2000) && (y < 2700)) {
       if (curr_onoff_tick_time - prev_onoff_tick_time >= 2000) {
         onoff_status = 1;
-        curr_onoff_tick_time = 0;
+        prev_onoff_tick_time = curr_onoff_tick_time;
       }
       else {
         onoff_status = 0;
       }
     } else {
       onoff_status = 0;
-      curr_onoff_tick_time = 0;
+      prev_onoff_tick_time = curr_onoff_tick_time;
     }
     vTaskDelay(1);
   }
@@ -245,14 +225,14 @@ void Pedestrian(void *p) {
     if ((x < 2900) && (x > 2500) && (y > 1000) && (y < 1900)) {
       if (curr_ped_tick_time - prev_ped_tick_time >= 2000) {
         pedestrian_status = 1;
-        curr_ped_tick_time = 0;
+        prev_ped_tick_time = curr_ped_tick_time;
       }
       else {
         pedestrian_status = 0;
       }
     } else {
       pedestrian_status = 0;
-      curr_ped_tick_time = 0;
+      prev_ped_tick_time = curr_ped_tick_time;
     }
     vTaskDelay(1);
   }
@@ -272,13 +252,13 @@ void Control(void *p) {
     // If the one of the virtual lights been lighting up for 5 or more
     // seconds, or if any of the virtual button flags has been set, switch
     // to the corresponding next state and reset the light tick.
-    if (curr_light_tick_time- prev_light_tick_time >= 5000) {
-      curr_light_tick_time = 0;
+    if ((curr_light_tick_time- prev_light_tick_time >= 5000) || (pedestrian_status) || (onoff_status)) {
+      prev_light_tick_time = curr_light_tick_time;
       switch_state = 1;
+      FSM();
     } else {
       switch_state = 0;
     }
-    FSM();
     vTaskDelay(1);
   }
 }
@@ -291,7 +271,6 @@ void FSM(void) {
         }
        break;
      case TL_go:
-        int result_go = five_seconds();
         if (onoff_status) {
            TL_State = TL_init;
         }

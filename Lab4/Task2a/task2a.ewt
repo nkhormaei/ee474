@@ -2317,7 +2317,16 @@
         <name>$PROJ_DIR$\header.h</name>
     </file>
     <file>
+        <name>$PROJ_DIR$\Lab3_Inits.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\Lab3_Inits.h</name>
+    </file>
+    <file>
         <name>$PROJ_DIR$\main.c</name>
+    </file>
+    <file>
+        <name>$PROJ_DIR$\PLL_Header.h</name>
     </file>
     <file>
         <name>$PROJ_DIR$\SSD2119_Display.c</name>

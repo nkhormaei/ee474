@@ -29,18 +29,13 @@ enum frequency freq;
 
 int main(void)
 {
-  freq = PRESET1; // 60 MHz
+  freq = PRESET2; // 60 MHz
   PLL_Init(freq);
+  timer_initc();
   LCD_init_traffic_light();
   Touch_Init();
   TL_State = TL_init;
   while (1) {
-    unsigned long x = Touch_ReadX();
-    unsigned long y = Touch_ReadY();
-    LCD_SetCursor(0, 100);
-    LCD_PrintInteger(x);
-    LCD_SetCursor(0, 125);
-    LCD_PrintInteger(y);
     Traffic_Light_System();
   }
   return 0;
@@ -57,7 +52,7 @@ void timer_initc() {
   
   GPTMTAMR_0 &= ~0x10; // Configure the TACDIR bit of the GPTMTAMR register to count down
   GPTMTAMR_0 |= 0x2; // Puts in periodic timer mode
-  GPTMTAILR_0 = 16000000;// Load the value 16,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
+  GPTMTAILR_0 = 60000000;// Load the value 16,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
   GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
 }
 
