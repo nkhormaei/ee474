@@ -2,7 +2,8 @@
  * Sidharth Daga, Nick Khormaei
  * 1964629, 2033863
  * 2/19/23
- * 
+ * This file provides the implementation for initializing
+and filling in the LCD screen
  */ 
 #include <stdint.h> 
 #include <stdio.h>

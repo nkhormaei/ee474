@@ -2,18 +2,20 @@
  * Sidharth Daga, Nick Khormaei
  * 1964629, 2033863
  * 1/24/23
- * This file implements the traffic light system with the use of timers, such that: 
- Each time a button is pressed, the system responds if and only if the user holds the 
-button for at least two seconds.
-Upon reset, all LEDs are turned off. When the On/Off button is pressed, 
+ * This file implements the traffic light system on teh LCD screen
+with the use of timers, such that: 
+ Each time a button is pressed, the system responds if and only if the user 
+holds the button for at least two seconds.
+Upon reset, all traffic lights are turned off. When the On/Off button is pressed, 
 the system will be turned on and start in the stop state. After a delay of 5 seconds, 
 the system will move to the go state. After another 5 seconds, the system will return 
 to the stop state. Until a button is pressed, this should repeat indefinitely. 
 If the On/Off button is pressed again, the system will be turned 
-off, which means that all LEDs will be turned off. 
+off, which means that all traffic lights will be turned off. 
 After the Pedestrian button is pressed and held by the user for 2 seconds while the 
 system is in the go state, the system  immediately transitions to the warn state, 
 and remain there for 5 seconds before moving to the stop state. 
+
  */ 
 #include <stdint.h>
 #include <stdbool.h>

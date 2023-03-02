@@ -22,13 +22,6 @@
 #define GPTMIMR_0      (*((volatile uint32_t *)0x40030018))
 #define GPTMRIS_0      (*((volatile uint32_t *)0x4003001C))
 #define GPTMICR_0     (*((volatile uint32_t *)0x40030024))
- 
-// To set up and change the data for GPIO Port E: LEDS and breadboard buttons
-#define GPIOAMSEL_E   (*((volatile uint32_t *)0x4005C528))
-#define GPIODIR_E       (*((volatile uint32_t *)0x4005C400))
-#define GPIODEN_E       (*((volatile uint32_t *)0x4005C51C))
-#define GPIOAFSEL_E     (*((volatile uint32_t *)0x4005C420))
-#define GPIODATA_E      (*((volatile uint32_t *)0x4005C3FC))
 
 // Sets up timer configuration
 void timer_initc();

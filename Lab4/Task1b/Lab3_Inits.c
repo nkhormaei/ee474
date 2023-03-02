@@ -56,19 +56,6 @@ int PLL_Init(enum frequency freq) {
     return 1;
 }
 
-void LED_Init(void) {
-  // STEP 1: Initialize the 4 on board LEDs by initializing the corresponding
-  // GPIO pins.
-  volatile unsigned short delay = 0;
-  RCGCGPIO |= 0x20;
-  delay++;
-  delay++;
-  GPIODIR_F = 0x11;
-  GPIODEN_F = 0x11; 
-  GPIODIR_N = 0x3;
-  GPIODEN_N = 0x3; 
-}
-
 void ADCReadPot_Init(void) {
   // STEP 2: Initialize ADC0 SS3.
   // 2.1: Enable the ADC0 clock

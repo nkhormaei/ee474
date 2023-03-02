@@ -1,3 +1,11 @@
+/* 
+ * Sidharth Daga, Nick Khormaei
+ * 1964629, 2033863
+ * 2/19/23
+ * This file provides the implementation for displayed the temperature
+on the LCD display while incorporating the switches changing frequency
+functionality
+ */ 
 #include <stdio.h>
 #include <stdint.h>
 #include "Lab3_Inits.h"
@@ -17,7 +25,7 @@ char temp_board[100];
 int main(void) {
   LCD_Init();
   // Select system clock frequency preset
-  freq = PRESET1; // 60 MHz
+  freq = PRESET2; // 60 MHz
   
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
   ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer

@@ -5,48 +5,48 @@
     <configuration>
         <name>Debug</name>
         <outputs>
+            <file>$PROJ_DIR$\Debug\Obj\Lab3_Inits.__cstat.et</file>
+            <file>$PROJ_DIR$\SSD2119_Touch.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
+            <file>$PROJ_DIR$\SSD2119_Display.h</file>
+            <file>$PROJ_DIR$\Lab3_Inits.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
+            <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+            <file>$PROJ_DIR$\cstartup_M.c</file>
             <file>$PROJ_DIR$\main.c</file>
             <file>$PROJ_DIR$\PLL_Header.h</file>
             <file>$PROJ_DIR$\SSD2119_Display.c</file>
-            <file>$PROJ_DIR$\SSD2119_Display.h</file>
             <file>$PROJ_DIR$\SSD2119_Touch.c</file>
-            <file>$PROJ_DIR$\Lab3_Inits.h</file>
-            <file>$PROJ_DIR$\cstartup_M.c</file>
-            <file>$PROJ_DIR$\SSD2119_Touch.h</file>
             <file>$PROJ_DIR$\Lab3_Inits.c</file>
-            <file>$PROJ_DIR$\tm4c1294ncpdt.h</file>
-            <file>$PROJ_DIR$\ADC_Header.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.pbi</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdint.h</file>
             <file>$PROJ_DIR$\Debug\Obj\SSD2119_Touch.o</file>
             <file>$PROJ_DIR$\Debug\Exe\task1c.out</file>
             <file>$TOOLKIT_DIR$\inc\c\DLib_Defaults.h</file>
             <file>$PROJ_DIR$\Debug\Obj\SSD2119_Display.pbi</file>
-            <file>$PROJ_DIR$\Debug\Obj\SSD2119_Display.o</file>
             <file>$TOOLKIT_DIR$\lib\m7M_tls.a</file>
+            <file>$PROJ_DIR$\tm4c1294ncpdt.h</file>
             <file>$PROJ_DIR$\Debug\Obj\SSD2119_Touch.__cstat.et</file>
+            <file>$PROJ_DIR$\ADC_Header.h</file>
             <file>$PROJ_DIR$\Debug\Obj\Lab3_Inits.pbi</file>
-            <file>$PROJ_DIR$\Debug\Obj\Lab3_Inits.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\lib\shb_l.a</file>
+            <file>$PROJ_DIR$\Debug\Obj\SSD2119_Display.o</file>
             <file>$PROJ_DIR$\Debug\List\task1c.map</file>
-            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\cstartup_M.o</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
-            <file>$PROJ_DIR$\Debug\Obj\cstartup_M.pbi</file>
-            <file>$PROJ_DIR$\Debug\Obj\cstartup_M.__cstat.et</file>
-            <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
-            <file>$PROJ_DIR$\Debug\Obj\SSD2119_Touch.pbi</file>
-            <file>$PROJ_DIR$\Debug\Obj\task1c.pbd</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
-            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
-            <file>$PROJ_DIR$\Debug\Obj\main.o</file>
-            <file>$PROJ_DIR$\Debug\Obj\Lab3_Inits.o</file>
-            <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
-            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
             <file>$TOOLKIT_DIR$\inc\c\ysizet.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\cstartup_M.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.o</file>
             <file>$PROJ_DIR$\Debug\Obj\SSD2119_Display.__cstat.et</file>
+            <file>$TOOLKIT_DIR$\inc\c\yvals.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\stdio.h</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Config_Full.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\SSD2119_Touch.pbi</file>
+            <file>$TOOLKIT_DIR$\inc\c\ycheck.h</file>
+            <file>$PROJ_DIR$\Debug\Obj\Lab3_Inits.o</file>
+            <file>$PROJ_DIR$\Debug\Obj\cstartup_M.__cstat.et</file>
+            <file>$PROJ_DIR$\Debug\Obj\main.__cstat.et</file>
+            <file>$TOOLKIT_DIR$\lib\dl7M_tlf.a</file>
             <file>$TOOLKIT_DIR$\config\linker\TexasInstruments\TM4C1294NC.icf</file>
+            <file>$TOOLKIT_DIR$\inc\c\DLib_Product.h</file>
+            <file>$TOOLKIT_DIR$\lib\rt7M_tl.a</file>
+            <file>$PROJ_DIR$\Debug\Obj\cstartup_M.pbi</file>
+            <file>$PROJ_DIR$\Debug\Obj\task1c.pbd</file>
         </outputs>
         <file>
             <name>[ROOT_NODE]</name>
@@ -58,29 +58,46 @@
             </outputs>
         </file>
         <file>
-            <name>$PROJ_DIR$\main.c</name>
+            <name>$PROJ_DIR$\cstartup_M.c</name>
             <outputs>
                 <tool>
-                    <name>__cstat</name>
-                    <file> 26</file>
-                </tool>
-                <tool>
                     <name>ICCARM</name>
-                    <file> 35</file>
+                    <file> 25</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 11</file>
+                    <file> 40</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 34</file>
+                </tool>
+            </outputs>
+        </file>
+        <file>
+            <name>$PROJ_DIR$\main.c</name>
+            <outputs>
+                <tool>
+                    <name>ICCARM</name>
+                    <file> 26</file>
+                </tool>
+                <tool>
+                    <name>BICOMP</name>
+                    <file> 2</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 35</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 33 34 24 15 38 32 39 12 5 10 3 7 9</file>
+                    <file> 29 32 28 15 30 38 24 5 4 20 3 1 18</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 38 15 3 34 24 12 5 9 39 32 10 7 33</file>
+                    <file> 30 15 3 32 28 4 18 24 38 5 20 1 29</file>
                 </tool>
             </inputs>
         </file>
@@ -88,26 +105,26 @@
             <name>$PROJ_DIR$\SSD2119_Display.c</name>
             <outputs>
                 <tool>
-                    <name>__cstat</name>
-                    <file> 40</file>
-                </tool>
-                <tool>
                     <name>ICCARM</name>
-                    <file> 17</file>
+                    <file> 22</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
                     <file> 16</file>
                 </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 27</file>
+                </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 3 9 12 34 24 15 38 32 33 39</file>
+                    <file> 3 18 5 32 28 15 30 38 29 24</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 34 24 12 9 33 39 3 15 38 32</file>
+                    <file> 32 28 5 18 29 24 3 15 30 38</file>
                 </tool>
             </inputs>
         </file>
@@ -115,70 +132,53 @@
             <name>$PROJ_DIR$\SSD2119_Touch.c</name>
             <outputs>
                 <tool>
-                    <name>__cstat</name>
-                    <file> 19</file>
-                </tool>
-                <tool>
                     <name>ICCARM</name>
                     <file> 13</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 30</file>
+                    <file> 31</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 19</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 12 34 24 15 38 32 9 7</file>
+                    <file> 5 32 28 15 30 38 18 1</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 15 38 7 24 32 9 34 12</file>
+                    <file> 15 30 1 28 38 18 32 5</file>
                 </tool>
             </inputs>
-        </file>
-        <file>
-            <name>$PROJ_DIR$\cstartup_M.c</name>
-            <outputs>
-                <tool>
-                    <name>__cstat</name>
-                    <file> 28</file>
-                </tool>
-                <tool>
-                    <name>ICCARM</name>
-                    <file> 25</file>
-                </tool>
-                <tool>
-                    <name>BICOMP</name>
-                    <file> 27</file>
-                </tool>
-            </outputs>
         </file>
         <file>
             <name>$PROJ_DIR$\Lab3_Inits.c</name>
             <outputs>
                 <tool>
-                    <name>__cstat</name>
-                    <file> 21</file>
-                </tool>
-                <tool>
                     <name>ICCARM</name>
-                    <file> 36</file>
+                    <file> 33</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 20</file>
+                    <file> 21</file>
+                </tool>
+                <tool>
+                    <name>__cstat</name>
+                    <file> 0</file>
                 </tool>
             </outputs>
             <inputs>
                 <tool>
                     <name>ICCARM</name>
-                    <file> 1 12 34 24 15 38 32 5 10</file>
+                    <file> 9 5 32 28 15 30 38 4 20</file>
                 </tool>
                 <tool>
                     <name>BICOMP</name>
-                    <file> 34 12 10 38 5 24 32 1 15</file>
+                    <file> 32 5 20 30 4 28 38 9 15</file>
                 </tool>
             </inputs>
         </file>
@@ -193,7 +193,7 @@
             <inputs>
                 <tool>
                     <name>ILINK</name>
-                    <file> 41 25 36 35 17 13 22 29 18 37</file>
+                    <file> 37 25 33 26 22 13 6 39 17 36</file>
                 </tool>
             </inputs>
         </file>
