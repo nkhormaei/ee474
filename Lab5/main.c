@@ -2,8 +2,8 @@
  * Sidharth Daga, Nick Khormaei
  * 1964629, 2033863
  * 2/19/23
- * This file provides the implementation for writing the temperature on the LCD
-screen, and using buttons on the LCD touch display to change the frequency
+ * This file provides the implementation for showing the distance measurement of an object
+  in inches on the LCD
  */ 
 #include <stdio.h>
 #include <stdint.h>
