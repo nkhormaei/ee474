@@ -8,15 +8,17 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "Lab3_Inits.h"
-#include "ADC_Header.h"
 #include "SSD2119_Display.h" 
 #include "SSD2119_Touch.h"
 #include "tm4c1294ncpdt.h"
 
-uint32_t ADC_value;
+
 enum frequency freq;
 
 char length[100];
+
+uint32_t Measure_distance(void);
+void ten_ms_delay(void);
 
 int main(void) {
   volatile unsigned short delay = 0; 
@@ -24,11 +26,11 @@ int main(void) {
   // Select system clock frequency preset
   freq = PRESET2; // 60 MHz
   LCD_Init();
-  PortE_Init(); 
+  LCD_ColorFill(Color4[5]);
   PLL_Init(freq);        // Set system clock frequency to 60 MHz
-  //ADCReadPot_Init();     // Initialize ADC0 to read from the potentiometer
-  TimerADCTriger_Init(); // Initialize Timer0A to trigger ADC0
-  Touch_Init();
+  Timer_Init(); // Initialize Timer0A to trigger ADC0
+  PortE_Init(); 
+
   
   float distance;
   float duration; 
@@ -48,10 +50,34 @@ int main(void) {
   return 0;
 }
 
-void ADC0SS3_Handler(void) {
-  // Clear the ADC0 interrupt flag
-  ADCISC |= 0x8; // module 0, but we want SS3
-  // Save the ADC value to global variable ADC_value
-  ADC_value = ADCSSFIFO3 & 0xFFF;
-  GPTMICR_0 |= 0x1;
+uint32_t Measure_distance() {
+  GPIO_PORTE_DATA_R &= ~0x1;
+  ten_ms_delay();
+  GPIO_PORTE_DATA_R |= 0x1;
+  ten_ms_delay();
+  GPIO_PORTE_DATA_R &= ~0x1;
+  int start, end;
+  while (1) {
+  //TIMER0_ICR_R = 0x4;
+    while ((TIMER0_RIS_R & 0x4) == 0);
+    if (GPIO_PORTE_DATA_R & 0x2) {
+      end = TIMER0_TAR_R;
+      TIMER0_ICR_R = 0x4;
+      while ((TIMER0_RIS_R & 0x4) == 0);
+      start = TIMER0_TAR_R;
+      return (start-end);
+    }
+  }
+}
+
+void ten_ms_delay() {
+    TIMER1_CTL_R |= 0x1;// Enable the timer using the GPTMCTL register
+    int i = 10;
+    while (i > 0) {
+      if (TIMER1_RIS_R & 0x1) {
+        TIMER1_ICR_R |= 0x1;
+        i--;
+      }
+    }
+    TIMER1_CTL_R  &= ~0x1; // Disable the timer using the GPTMCTL register
 }

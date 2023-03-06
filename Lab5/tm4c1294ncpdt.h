@@ -25,7 +25,7 @@
 // "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
 // LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR
 // A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT
-// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// OWNER OR CONTRIBUTORS BE LIABLE FOR ANY ECT, INDIRECT, INCIDENTAL,
 // SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT
 // LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
 // DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
@@ -15558,15 +15558,6 @@
 #define NVIC_FPDSC_RMODE_RM     0x00800000  // Round towards Minus Infinity
                                             // (RM) mode
 #define NVIC_FPDSC_RMODE_RZ     0x00C00000  // Round towards Zero (RZ) mode
-
-// registers for GPIO                                                
-#define RCGCGPIO        (*((volatile uint32_t *)0x400FE608))
-
-#define GPIOAMSEL_E     (*((volatile uint32_t *)0x4005C528))
-#define GPIODIR_E       (*((volatile uint32_t *)0x4005C400))
-#define GPIODEN_E       (*((volatile uint32_t *)0x4005C51C))
-#define GPIOAFSEL_E     (*((volatile uint32_t *)0x4005C420))
-#define GPIODATA_E      (*((volatile uint32_t *)0x4005C3FC))
                                   
 //*****************************************************************************
 //

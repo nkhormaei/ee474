@@ -4,6 +4,7 @@
 
 #include "PLL_Header.h"
 #include "Lab3_Inits.h"
+#include "tm4c1294ncpdt.h"
 
 // STEP 0a: Include your header file here
 // YOUR CUSTOM HEADER FILE HERE
@@ -56,56 +57,7 @@ int PLL_Init(enum frequency freq) {
     return 1;
 }
 
-void ADCReadPot_Init(void) {
-  // STEP 2: Initialize ADC0 SS3.
-  // 2.1: Enable the ADC0 clock
-  RCGCADC |= 0x1;
-  // 2.2: Delay for RCGCADC (Refer to page 1073)
-  volatile unsigned short delay = 0; 
-  delay++;
-  delay++;
-  delay++;
-  // 2.3: Power up the PLL (if not already)
-  PLLFREQ0 |= 0x00800000; // we did this for you
-  // 2.4: Wait for the PLL to lock
-  while (PLLSTAT != 0x1); // we did this for you
-  // 2.5: Configure ADCCC to use the clock source defined by ALTCLKCFG
-  ADCCC |= 0x1;
-  // 2.6: Enable clock to the appropriate GPIO Modules (Hint: Table 15-1)
-  RCGCGPIO |= 0x10;
-  // 2.7: Delay for RCGCGPIO
-  delay++;
-  delay++;
-  // 2.8: Set the GPIOAFSEL bits for the ADC input pins
-  GPIOAFSEL_E |= 0x8;
-  
-  // 2.9: Clear the GPIODEN bits for the ADC input pins
-  GPIODEN_E &= (~0x8);
-  
-  // 2.10: Disable the analog isolation circuit for ADC input pins (GPIOAMSEL)
-  GPIOAMSEL_E |= 0x8; // want analog isolation to be disabled
-  
-  // 2.11: Disable sample sequencer 3 (SS3)
-  ADCACTSS &= (~0x8);
-  
-  // 2.12: Select timer as the trigger for SS3
-  ADCEMUX |= 0x5000;
-  
-  // 2.14: Configure ADCSSCTL3 register
-  ADCSSCTL3 = 0xE; //1110 for temp sensor
-  
-  // 2.15: Set the SS3 interrupt mask
-  ADCIM |= 0x8;
-  
-  // 2.16: Set the corresponding bit for ADC0 SS3 in NVIC
-  NVIC_EN0 |= (1 << 17);
-  
-  // 2.17: Enable ADC0 SS3
-  ADCACTSS |= 0x8;
-
-}
-
-void TimerADCTriger_Init(void) {
+void Timer_Init(void) {
   // STEP 3: Initialize Timer0A to trigger ADC0 at 1 HZ.
   // Hint: Refer to section 13.3.7 of the datasheet
   
@@ -113,47 +65,40 @@ void TimerADCTriger_Init(void) {
   volatile unsigned short delay = 0; 
   delay++;           // Delay 2 more cycles before access Timer registers 
   delay++;           // Refer to Page. 756 of Datasheet for info 
-  RCGCTIMER |= 0x1; // Enable the appropriate TIMERn bit in the RCGCTIMER register
-  GPTMCTL_0 &= ~0x1; // Disable the timer using the GPTMCTL register
+  SYSCTL_RCGCTIMER_R |= 0x3; // Enable the appropriate TIMERn bit in the RCGCTIMER register
+  TIMER1_CTL_R  &= ~0x1; // Disable the timer using the GPTMCTL register
+  TIMER1_CFG_R &= 0x00; //select 32-bit mode using the GPTMCFG register
+  TIMER1_TAMR_R &= ~0x10; // Configure the TACDIR bit of the GPTMTAMR register to count down
+  TIMER1_TAMR_R |= 0x2; // Puts in periodic timer mode
+  TIMER1_TAILR_R = 60000;// Load the value 60,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
   
-  GPTMCFG_0 = 0x00; // Write 0x0000.0000 to the GPTMCFG register, 
-  GPTMCFG_0 &= 0x00; //select 32-bit mode using the GPTMCFG register
-  
-  GPTMTAMR_0 &= ~0x10; // Configure the TACDIR bit of the GPTMTAMR register to count down
-  GPTMTAMR_0 |= 0x2; // Puts in periodic timer mode
-  
-  GPTMTAILR_0 = 60000000;// Load the value 60,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
-  GPTMIMR_0 = 0x1; // Configure GPTMIMR register for interrupts
-  
-  GPTMADCEV |= 0x1;
-  GPTMCTL_0 |= 0x20;
-    
-  GPTMCTL_0 |= 0x1;// Enable the timer using the GPTMCTL register
-  
-}
+  TIMER0_CTL_R  &= ~0x1; // Disable the timer using the GPTMCTL register
+  TIMER0_CFG_R = 4; //select 16-bit mode using the GPTMCFG register
+  TIMER0_TAMR_R = 0x17; // Configure the TACDIR bit of the GPTMTAMR register to count down
+  TIMER0_CTL_R |= 0x0C;
+  TIMER0_CTL_R |= 0x1;
 
-void Buttons_Init(void) {
-  volatile unsigned short delay = 0; 
-  RCGCGPIO |= 0x200;
-  delay++;
-  delay++;
-  GPIODIR_J = 0x00;
-  GPIODEN_J = 0x3;
-  GPIOPUR_J = 0x3;
+
 }
 
 void PortE_Init(void) {
+  volatile unsigned short delay = 0; 
   // GPIO E port 0 and 1 setup
-  RCGCGPIO |= 0x10; // Enable PortE GPIO
+  SYSCTL_RCGCGPIO_R |= 0x10; // Enable PortE GPIO
   delay++; // Delay 2 more cycles before access Timer registers
   delay++; // Refer to Page. 756 of Datasheet for info
 
   // PE 0 is trig pin (output) and PE 1 is echo pin (input)
-  GPIOAMSEL_E &= ~0x3;          // disable analog function of PE0/1
-  GPIOAFSEL_E &= ~0x3;          // set PE/1/2/3/4 regular port function 
-  GPIODIR_E |= 0x1;             // set PE0 to output 
-  GPIODIR_E &= ~0x2;             // set PE1 to input
-  GPIODEN_E |= 0x3;             // enable digital output on PE0/1/2/3/4
+
+  GPIO_PORTE_DIR_R  |= 0x1;             // set PE0 to output 
+  GPIO_PORTE_DIR_R  &= ~0x2;             // set PE1 to input
+  GPIO_PORTE_DEN_R |= 0x3;  // enable digital output on PE0/1
   
+  GPIO_PORTE_AFSEL_R |= 0x2;          
+  GPIO_PORTE_PCTL_R &= ~0xF0;
+  GPIO_PORTE_PCTL_R |= 0x70;
+  
+  GPIO_PORTE_AFSEL_R &= ~0x1;          
+  GPIO_PORTE_PCTL_R &= ~0xF;
 }
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler
