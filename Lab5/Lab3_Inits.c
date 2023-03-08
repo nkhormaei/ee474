@@ -69,36 +69,32 @@ void Timer_Init(void) {
   TIMER1_CTL_R  &= ~0x1; // Disable the timer using the GPTMCTL register
   TIMER1_CFG_R &= 0x00; //select 32-bit mode using the GPTMCFG register
   TIMER1_TAMR_R &= ~0x10; // Configure the TACDIR bit of the GPTMTAMR register to count down
-  TIMER1_TAMR_R |= 0x2; // Puts in periodic timer mode
-  TIMER1_TAILR_R = 60000;// Load the value 60,000,000 into the GPTMTAILR to achieve a 1 Hz blink rate using the 16 MHz oscillator
+  TIMER1_TAMR_R |= 0x1; // Puts in one shot timer mode
+  TIMER1_TAILR_R = 60;// Load the value 60 into the GPTMTAILR to achieve a 10ms blink rate using the 60 MHz oscillator
   
   TIMER0_CTL_R  &= ~0x1; // Disable the timer using the GPTMCTL register
-  TIMER0_CFG_R = 4; //select 16-bit mode using the GPTMCFG register
-  TIMER0_TAMR_R = 0x17; // Configure the TACDIR bit of the GPTMTAMR register to count down
-  TIMER0_CTL_R |= 0x0C;
-  TIMER0_CTL_R |= 0x1;
-
-
+  TIMER0_CFG_R = 0x0; //select 16-bit mode using the GPTMCFG register
+  TIMER0_TAMR_R |= 0x11; // Configure the TACDIR bit of the GPTMTAMR register to count up and one shot timer mode
+  TIMER0_TAILR_R = 60; // Load the value 60,000,000 into the GPTMTAILR to achieve a 1s blink rate using the 60 MHz oscillator
 }
 
 void PortE_Init(void) {
   volatile unsigned short delay = 0; 
   // GPIO E port 0 and 1 setup
-  SYSCTL_RCGCGPIO_R |= 0x10; // Enable PortE GPIO
+  SYSCTL_RCGCGPIO_R |= 0x12; // Enable Port B and E GPIO
   delay++; // Delay 2 more cycles before access Timer registers
   delay++; // Refer to Page. 756 of Datasheet for info
 
-  // PE 0 is trig pin (output) and PE 1 is echo pin (input)
+  // PB2 is echo pin (input) and PE 1 is trigger pin (output)
 
-  GPIO_PORTE_DIR_R  |= 0x1;             // set PE0 to output 
-  GPIO_PORTE_DIR_R  &= ~0x2;             // set PE1 to input
-  GPIO_PORTE_DEN_R |= 0x3;  // enable digital output on PE0/1
-  
-  GPIO_PORTE_AFSEL_R |= 0x2;          
+  GPIO_PORTE_DIR_R  |= 0x2;             // set PE1 to output 
+  GPIO_PORTE_DEN_R |= 0x2;  // enable digital output on PE1
+  GPIO_PORTE_AFSEL_R &= ~0x2;          
   GPIO_PORTE_PCTL_R &= ~0xF0;
-  GPIO_PORTE_PCTL_R |= 0x70;
-  
-  GPIO_PORTE_AFSEL_R &= ~0x1;          
-  GPIO_PORTE_PCTL_R &= ~0xF;
+
+  GPIO_PORTB_DIR_R  &= ~0x4;             // set PB2 to input
+  GPIO_PORTB_DEN_R |= 0x4;  // enable digital output on PB 2
+  GPIO_PORTB_AFSEL_R |= 0x4;          
+  GPIO_PORTB_PCTL_R |= 0x300;
 }
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler

@@ -40,7 +40,8 @@ int main(void) {
     // need some sort of function to calculate the time difference between the trig and echo pin
     duration = Measure_distance();   
     distance = (duration * 0.034 / 2) / 2.54; // distance in inches
-    
+    printf("duration %.2lf\n", duration);
+    printf("distance %.2lf\n", distance);
     LCD_SetCursor(0, 0);
     sprintf(length, "Distance is %.2lf inches\n", distance);
    
@@ -56,28 +57,23 @@ uint32_t Measure_distance() {
   GPIO_PORTE_DATA_R |= 0x1;
   ten_ms_delay();
   GPIO_PORTE_DATA_R &= ~0x1;
-  int start, end;
-  while (1) {
-  //TIMER0_ICR_R = 0x4;
-    while ((TIMER0_RIS_R & 0x4) == 0);
-    if (GPIO_PORTE_DATA_R & 0x2) {
-      end = TIMER0_TAR_R;
-      TIMER0_ICR_R = 0x4;
-      while ((TIMER0_RIS_R & 0x4) == 0);
-      start = TIMER0_TAR_R;
-      return (start-end);
+  while (!(GPIO_PORTB_DATA_R & 0x4)){};
+  TIMER0_CTL_R |= 0x1;
+  int count = 0;
+  while (GPIO_PORTB_DATA_R & 0x4){
+    if (TIMER0_RIS_R & 0x1) {
+      count++;
+      TIMER0_ICR_R = 0x1;
     }
   }
+  printf("count %d", count);
+  TIMER1_CTL_R  &= ~0x1;
+  return (count * 1000000);
 }
 
 void ten_ms_delay() {
     TIMER1_CTL_R |= 0x1;// Enable the timer using the GPTMCTL register
-    int i = 10;
-    while (i > 0) {
-      if (TIMER1_RIS_R & 0x1) {
-        TIMER1_ICR_R |= 0x1;
-        i--;
-      }
-    }
+    while (!(TIMER1_RIS_R & 0x1)) {};
+    TIMER1_ICR_R = 0x1;
     TIMER1_CTL_R  &= ~0x1; // Disable the timer using the GPTMCTL register
 }
