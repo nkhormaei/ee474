@@ -1,10 +1,8 @@
 /**
- * EE/CSE 474: Lab3 drivers header file
+ * EE/CSE 474: Lab3 drivers header file for PLL
+as well as method declarations for initialzing timer and GPIO for 
+ultrasound purposes
  */
-
-// NOTE: All necessary functions for Task 1a have been declared in
-// this header file, and thus you should not modify it for task 1a.
-// However, you may modify it if you want to reuse it for other tasks.
 
 #ifndef _Lab3_Inits_H_
 #define _Lab3_Inits_H_
@@ -19,10 +17,10 @@ enum frequency {PRESET1 = 120, PRESET2 = 60, PRESET3 = 12};
 // Returns 1 if configured successfully, -1 if you select a non-exist preset.
 int PLL_Init(enum frequency freq);
 
-// Initializes Timer 0A to trigger ADC0 at 1 HZ.
+// Initializes Timer 0 as an input
 void Timer_Init(void);
 
-// Initialize port E
-void PortE_Init(void);
+// Initialize pin E1(output) and B2 (input)
+void Port_Init(void);
 
 #endif  // _Lab3_Inits_H_
