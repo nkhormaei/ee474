@@ -72,10 +72,15 @@ void Timer_Init(void) {
   TIMER1_TAMR_R |= 0x1; // Puts in one shot timer mode
   TIMER1_TAILR_R = 60;// Load the value 60 into the GPTMTAILR to achieve a 10ms blink rate using the 60 MHz oscillator
   
+
   TIMER0_CTL_R  &= ~0x1; // Disable the timer using the GPTMCTL register
   TIMER0_CFG_R = 0x0; //select 16-bit mode using the GPTMCFG register
-  TIMER0_TAMR_R |= 0x11; // Configure the TACDIR bit of the GPTMTAMR register to count up and one shot timer mode
-  TIMER0_TAILR_R = 60; // Load the value 60,000,000 into the GPTMTAILR to achieve a 1s blink rate using the 60 MHz oscillator
+  TIMER0_TAMR_R |= 0x12; // Configure the TACDIR bit of the GPTMTAMR register to count up and periodic mode
+  TIMER0_TAILR_R = 6; // Load the value 60,000,000 into the GPTMTAILR to achieve a 1s blink rate using the 60 MHz 
+  
+  NVIC_EN0_R = (1<<19u);
+  TIMER0_IMR_R = 0x1; // Configure GPTMIMR register for interrupts
+
 }
 
 void PortE_Init(void) {
@@ -96,5 +101,13 @@ void PortE_Init(void) {
   GPIO_PORTB_DEN_R |= 0x4;  // enable digital output on PB 2
   GPIO_PORTB_AFSEL_R |= 0x4;          
   GPIO_PORTB_PCTL_R |= 0x300;
+
+  GPIO_PORTB_IM_R &= ~0x4;
+  GPIO_PORTB_ICR_R = 0x4;
+  GPIO_PORTB_IS_R &= ~0x4;
+  GPIO_PORTB_IBE_R |= 0x4;
+  GPIO_PORTB_RIS_R &= ~0x4;
+  GPIO_PORTB_IM_R |= 0x4;
+  NVIC_EN0_R |= (1 << 1);
 }
 // NEXT STEP: Go to Lab3_Task1a.c and finish implementing ADC0SS3_Handler
